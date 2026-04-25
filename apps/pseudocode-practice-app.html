@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGCSE Edexcel Official Pseudocode Practice Web</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0f172a;
+      --panel2: #111827;
+      --card: #1f2937;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --blue: #38bdf8;
+      --purple: #a78bfa;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(167, 139, 250, 0.18), transparent 32%),
+        var(--bg);
+      padding: 20px;
+    }
+
+    header {
+      max-width: 1220px;
+      margin: 0 auto 18px auto;
+      padding: 24px;
+      text-align: center;
+      border-radius: 28px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(248, 250, 252, 0.12);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.28);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 960px;
+      margin: 12px auto 0 auto;
+      line-height: 1.55;
+    }
+
+    .app {
+      max-width: 1220px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 18px;
+    }
+
+    aside, .main {
+      background: rgba(15, 23, 42, 0.86);
+      border: 1px solid rgba(248, 250, 252, 0.12);
+      border-radius: 26px;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.25);
+    }
+
+    aside {
+      padding: 18px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .main {
+      padding: 18px;
+      min-height: 780px;
+    }
+
+    .stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(248, 250, 252, 0.08);
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    button, select, input, textarea {
+      border: 0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    button {
+      width: 100%;
+      background: rgba(56, 189, 248, 0.18);
+      color: var(--text);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: rgba(56, 189, 248, 0.28);
+    }
+
+    select {
+      width: 100%;
+      background: #f8fafc;
+      color: #0f172a;
+      margin: 6px 0 8px 0;
+    }
+
+    .secondary { background: rgba(248, 250, 252, 0.10); }
+    .danger { background: rgba(239, 68, 68, 0.20); }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      width: auto;
+      margin: 0;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(248, 250, 252, 0.10);
+    }
+
+    .tab.active {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.35), rgba(167, 139, 250, 0.35));
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .card {
+      background: rgba(31, 41, 55, 0.74);
+      border: 1px solid rgba(248, 250, 252, 0.10);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    h2, h3 { margin-top: 0; }
+    h2 {
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      letter-spacing: -0.03em;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .question {
+      font-size: 1.12rem;
+      line-height: 1.55;
+      margin: 12px 0;
+    }
+
+    pre, code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    pre {
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid rgba(248, 250, 252, 0.10);
+      border-radius: 18px;
+      padding: 16px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: #e0f2fe;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 210px;
+      background: #f8fafc;
+      color: #0f172a;
+      resize: vertical;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    input {
+      background: #f8fafc;
+      color: #0f172a;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .feedback.bad {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .feedback.warn {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      margin-top: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid rgba(248, 250, 252, 0.10);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    td.center, th.center { text-align: center; }
+
+    th { background: rgba(248, 250, 252, 0.08); }
+    tr:last-child td { border-bottom: 0; }
+
+    .answer-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .answer-row button {
+      width: auto;
+      margin: 0;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(248, 250, 252, 0.10);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin: 4px 4px 0 0;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .rule-card {
+      background: rgba(248, 250, 252, 0.08);
+      border: 1px solid rgba(248, 250, 252, 0.10);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .rule-card h3 {
+      color: #bae6fd;
+      margin-bottom: 6px;
+    }
+
+    .blank-input {
+      min-width: 110px;
+      margin: 2px 4px;
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .line {
+      margin: 7px 0;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      color: #e0f2fe;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .trace-input {
+      width: 70px;
+      padding: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(56,189,248,.16);
+      color: #bae6fd;
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      aside, .tabs, button, select { display: none !important; }
+      .app { display: block; }
+      .main, .card { box-shadow: none; background: white; color: black; border-color: #999; }
+      .section { display: block; }
+      pre { color: black; background: white; border-color: #999; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>IGCSE Edexcel Official Pseudocode Practice Web</h1>
+    <p class="subtitle">
+      Redone using Pearson Edexcel pseudocode command set: <strong>SET ... TO</strong>, <strong>SEND ... TO DISPLAY</strong>, <strong>RECEIVE ... FROM (TYPE) KEYBOARD</strong>, <strong>END IF</strong>, <strong>END FOR</strong>, zero-based arrays, <strong>MOD</strong>, <strong>DIV</strong>, <strong>LENGTH()</strong>, and <strong>&</strong> for append/concatenation.
+    </p>
+  </header>
+
+  <main class="app">
+    <aside>
+      <div class="stat">
+        <div class="stat-label">Score</div>
+        <div class="stat-value" id="scoreText">0 / 0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Current mode</div>
+        <div class="stat-value" id="modeText">Command Set</div>
+      </div>
+
+      <label class="small">Practice type</label>
+      <select id="practiceType">
+        <option value="fill">Fill in blanks</option>
+        <option value="trace">Trace table</option>
+        <option value="fix">Fix errors</option>
+        <option value="write">Write pseudocode</option>
+        <option value="operators">Operators</option>
+      </select>
+
+      <button onclick="newQuestion()">New Practice Question</button>
+      <button class="secondary" onclick="showHint()">Hint</button>
+      <button class="secondary" onclick="showAnswer()">Show Answer</button>
+      <button class="danger" onclick="resetScore()">Reset Score</button>
+
+      <p class="small">
+        Key corrections: use <strong>DISPLAY</strong>, not SCREEN. Use <strong>SET variable TO value</strong>, not variable = value. Use <strong>END IF</strong>, not ENDIF.
+      </p>
+    </aside>
+
+    <section class="main">
+      <div class="tabs">
+        <button class="tab active" onclick="openTab('rules', this)">Command Set</button>
+        <button class="tab" onclick="openTab('practice', this)">Practice</button>
+        <button class="tab" onclick="openTab('trace', this)">Trace Tables</button>
+        <button class="tab" onclick="openTab('models', this)">Model Answers</button>
+      </div>
+
+      <section id="rules" class="section active">
+        <div class="card">
+          <h2>Official Edexcel Pseudocode Rules</h2>
+          <p class="small">
+            These are the exact command styles used in the Pearson Edexcel International GCSE pseudocode command set.
+          </p>
+
+          <div class="rules-grid">
+            <div class="rule-card">
+              <h3>Data types</h3>
+              <pre>INTEGER
+REAL
+BOOLEAN
+CHARACTER
+STRING</pre>
+              <p>Use type coercion in input, for example <code>(INTEGER) KEYBOARD</code>.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Assignment</h3>
+              <pre>SET Counter TO 0
+SET Sum TO Score + 10
+SET Size TO LENGTH(Word)</pre>
+              <p>Use <strong>SET ... TO</strong>. Do not use <code>=</code> for assignment in Edexcel pseudocode.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Input</h3>
+              <pre>RECEIVE Name FROM (STRING) KEYBOARD
+RECEIVE Age FROM (INTEGER) KEYBOARD
+RECEIVE YesNo FROM (CHARACTER) KEYBOARD</pre>
+              <p>Use <strong>RECEIVE identifier FROM (type) device</strong>.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Output</h3>
+              <pre>SEND 'Have a good day.' TO DISPLAY
+SEND Total TO DISPLAY</pre>
+              <p>Use <strong>DISPLAY</strong>, not SCREEN.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Selection</h3>
+              <pre>IF Answer = 10 THEN
+    SET Score TO Score + 1
+END IF
+
+IF Answer = 'correct' THEN
+    SEND 'Well done' TO DISPLAY
+ELSE
+    SEND 'Try again' TO DISPLAY
+END IF</pre>
+              <p>Use <strong>END IF</strong> with a space.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>WHILE loop</h3>
+              <pre>WHILE Flag = 0 DO
+    SEND 'All well' TO DISPLAY
+END WHILE</pre>
+              <p>Pre-conditioned loop. It may run zero times.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>REPEAT UNTIL loop</h3>
+              <pre>REPEAT
+    SET Go TO Go + 1
+UNTIL Go = 10</pre>
+              <p>Post-conditioned loop. It runs at least once.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>REPEAT n TIMES</h3>
+              <pre>REPEAT 100 - Number TIMES
+    SEND '*' TO DISPLAY
+END REPEAT</pre>
+              <p>Count-controlled loop using an expression.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>FOR loop</h3>
+              <pre>FOR Index FROM 1 TO 10 DO
+    SEND ArrayNumbers[Index] TO DISPLAY
+END FOR
+
+FOR Index FROM 1 TO 500 STEP 25 DO
+    SEND Index TO DISPLAY
+END FOR</pre>
+              <p>Use <strong>FROM</strong>, <strong>TO</strong>, optional <strong>STEP</strong>, and <strong>END FOR</strong>.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Arrays and strings</h3>
+              <pre>SET ArrayValues TO [1, 2, 3, 4, 5]
+SET ArrayValues[0] TO 10
+SET Sentence TO Sentence & Word & ' '</pre>
+              <p>Indices start at <strong>0</strong>. Use <strong>&</strong> to append/concatenate.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Subprograms</h3>
+              <pre>PROCEDURE CalculateAverage(Mark1, Mark2, Mark3)
+BEGIN PROCEDURE
+    SET Avg TO (Mark1 + Mark2 + Mark3) / 3
+END PROCEDURE
+
+FUNCTION AddMarks(Mark1, Mark2, Mark3)
+BEGIN FUNCTION
+    SET Total TO Mark1 + Mark2 + Mark3
+    RETURN Total
+END FUNCTION</pre>
+              <p>Functions return a value. Procedures do not have to return a value.</p>
+            </div>
+
+            <div class="rule-card">
+              <h3>Operators</h3>
+              <pre>+  -  /  *  ^
+MOD
+DIV
+=  &lt;&gt;  &gt;  &gt;=  &lt;  &lt;=
+AND  OR  NOT</pre>
+              <p>Use <strong>MOD</strong> for remainder and <strong>DIV</strong> for integer division.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Command Set Correction Table</h2>
+          <table>
+            <thead>
+              <tr><th>Wrong / old style</th><th>Correct Edexcel style</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>total = 0</code></td><td><code>SET Total TO 0</code></td></tr>
+              <tr><td><code>SEND total TO SCREEN</code></td><td><code>SEND Total TO DISPLAY</code></td></tr>
+              <tr><td><code>RECEIVE age FROM KEYBOARD</code></td><td><code>RECEIVE Age FROM (INTEGER) KEYBOARD</code></td></tr>
+              <tr><td><code>ENDIF</code></td><td><code>END IF</code></td></tr>
+              <tr><td><code>ENDWHILE</code></td><td><code>END WHILE</code></td></tr>
+              <tr><td><code>ENDFOR</code></td><td><code>END FOR</code></td></tr>
+              <tr><td><code>FOR i = 1 TO 10 DO</code></td><td><code>FOR Index FROM 1 TO 10 DO</code></td></tr>
+              <tr><td><code>list[1]</code> as first item</td><td><code>List[0]</code> as first item</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="practice" class="section">
+        <div class="card">
+          <h2>Practice Question</h2>
+          <div id="questionArea" class="question">Press “New Practice Question” to start.</div>
+          <div id="answerArea"></div>
+          <div id="feedbackArea"></div>
+        </div>
+      </section>
+
+      <section id="trace" class="section">
+        <div class="card">
+          <h2>Trace Table Trainer</h2>
+          <p class="small">This uses official Edexcel syntax.</p>
+          <pre id="traceCode">SET Total TO 0
+
+FOR Index FROM 1 TO 4 DO
+    SET Total TO Total + Index
+END FOR
+
+SEND Total TO DISPLAY</pre>
+          <table>
+            <thead>
+              <tr><th class="center">Step</th><th class="center">Index</th><th class="center">Total</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="center">start</td><td class="center">-</td><td class="center"><input class="trace-input" id="tr0" placeholder="?"></td></tr>
+              <tr><td class="center">after Index = 1</td><td class="center">1</td><td class="center"><input class="trace-input" id="tr1" placeholder="?"></td></tr>
+              <tr><td class="center">after Index = 2</td><td class="center">2</td><td class="center"><input class="trace-input" id="tr2" placeholder="?"></td></tr>
+              <tr><td class="center">after Index = 3</td><td class="center">3</td><td class="center"><input class="trace-input" id="tr3" placeholder="?"></td></tr>
+              <tr><td class="center">after Index = 4</td><td class="center">4</td><td class="center"><input class="trace-input" id="tr4" placeholder="?"></td></tr>
+            </tbody>
+          </table>
+          <div class="answer-row">
+            <button onclick="checkMainTrace()">Check Trace</button>
+            <button class="secondary" onclick="fillMainTrace()">Fill Answer</button>
+          </div>
+          <div id="mainTraceFeedback"></div>
+        </div>
+      </section>
+
+      <section id="models" class="section">
+        <div class="card">
+          <h2>Official Edexcel-Style Model Answers</h2>
+
+          <h3>1. Input 5 numbers and output the total</h3>
+          <pre>SET Total TO 0
+
+FOR Count FROM 1 TO 5 DO
+    RECEIVE Number FROM (INTEGER) KEYBOARD
+    SET Total TO Total + Number
+END FOR
+
+SEND Total TO DISPLAY</pre>
+
+          <h3>2. Keep asking for a password until it is correct</h3>
+          <pre>REPEAT
+    RECEIVE Password FROM (STRING) KEYBOARD
+UNTIL Password = 'secret'
+
+SEND 'Access granted' TO DISPLAY</pre>
+
+          <h3>3. Count how many array values are greater than 50</h3>
+          <pre>SET Scores TO [45, 67, 23, 89, 51]
+SET Count TO 0
+
+FOR Index FROM 0 TO LENGTH(Scores) - 1 DO
+    IF Scores[Index] > 50 THEN
+        SET Count TO Count + 1
+    END IF
+END FOR
+
+SEND Count TO DISPLAY</pre>
+
+          <h3>4. Validate an age between 11 and 18</h3>
+          <pre>REPEAT
+    RECEIVE Age FROM (INTEGER) KEYBOARD
+UNTIL Age >= 11 AND Age <= 18
+
+SEND 'Age accepted' TO DISPLAY</pre>
+
+          <h3>5. Find the largest number in an array</h3>
+          <pre>SET Numbers TO [4, 9, 2, 15, 6]
+SET Largest TO Numbers[0]
+
+FOR Index FROM 1 TO LENGTH(Numbers) - 1 DO
+    IF Numbers[Index] > Largest THEN
+        SET Largest TO Numbers[Index]
+    END IF
+END FOR
+
+SEND Largest TO DISPLAY</pre>
+
+          <h3>6. Create a sentence using & append operator</h3>
+          <pre>SET Words TO ['The', 'Sky', 'is', 'grey']
+SET Sentence TO ''
+
+FOR EACH Word FROM Words DO
+    SET Sentence TO Sentence & Word & ' '
+END FOREACH
+
+SEND Sentence TO DISPLAY</pre>
+
+          <h3>7. Use MOD to check if a number is even</h3>
+          <pre>RECEIVE Number FROM (INTEGER) KEYBOARD
+
+IF Number MOD 2 = 0 THEN
+    SEND 'Even' TO DISPLAY
+ELSE
+    SEND 'Odd' TO DISPLAY
+END IF</pre>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    let score = 0;
+    let total = 0;
+    let current = null;
+
+    const fillQuestions = [
+      {
+        type: "fill",
+        title: "Fill the blanks: total of 5 numbers",
+        prompt: "Complete the pseudocode using the official Edexcel command set.",
+        lines: [
+          `SET Total TO <input class="blank-input" id="b0" placeholder="?">`,
+          ``,
+          `FOR Count FROM 1 TO <input class="blank-input" id="b1" placeholder="?"> DO`,
+          `    RECEIVE Number FROM <input class="blank-input" id="b2" placeholder="?"> KEYBOARD`,
+          `    SET Total TO Total + <input class="blank-input" id="b3" placeholder="?">`,
+          `<input class="blank-input" id="b4" placeholder="?">`,
+          ``,
+          `SEND Total TO <input class="blank-input" id="b5" placeholder="?">`
+        ],
+        answers: ["0", "5", "(INTEGER)", "Number", "END FOR", "DISPLAY"],
+        hint: "Use SET ... TO, RECEIVE ... FROM (INTEGER) KEYBOARD, END FOR, and DISPLAY.",
+        model: `SET Total TO 0
+
+FOR Count FROM 1 TO 5 DO
+    RECEIVE Number FROM (INTEGER) KEYBOARD
+    SET Total TO Total + Number
+END FOR
+
+SEND Total TO DISPLAY`
+      },
+      {
+        type: "fill",
+        title: "Fill the blanks: password loop",
+        prompt: "Complete the pseudocode to keep asking for a password until it equals 'open'.",
+        lines: [
+          `<input class="blank-input" id="b0" placeholder="?">`,
+          `    RECEIVE Password FROM <input class="blank-input" id="b1" placeholder="?"> KEYBOARD`,
+          `<input class="blank-input" id="b2" placeholder="?"> Password = 'open'`,
+          ``,
+          `SEND 'Access granted' TO DISPLAY`
+        ],
+        answers: ["REPEAT", "(STRING)", "UNTIL"],
+        hint: "Use REPEAT ... UNTIL. The input type is (STRING).",
+        model: `REPEAT
+    RECEIVE Password FROM (STRING) KEYBOARD
+UNTIL Password = 'open'
+
+SEND 'Access granted' TO DISPLAY`
+      },
+      {
+        type: "fill",
+        title: "Fill the blanks: selection",
+        prompt: "Complete the pseudocode to output Pass if Mark is at least 50, otherwise output Fail.",
+        lines: [
+          `RECEIVE Mark FROM (INTEGER) KEYBOARD`,
+          ``,
+          `<input class="blank-input" id="b0" placeholder="?"> Mark >= 50 THEN`,
+          `    SEND 'Pass' TO DISPLAY`,
+          `<input class="blank-input" id="b1" placeholder="?">`,
+          `    SEND 'Fail' TO DISPLAY`,
+          `<input class="blank-input" id="b2" placeholder="?">`
+        ],
+        answers: ["IF", "ELSE", "END IF"],
+        hint: "Selection uses IF, ELSE and END IF.",
+        model: `RECEIVE Mark FROM (INTEGER) KEYBOARD
+
+IF Mark >= 50 THEN
+    SEND 'Pass' TO DISPLAY
+ELSE
+    SEND 'Fail' TO DISPLAY
+END IF`
+      },
+      {
+        type: "fill",
+        title: "Fill the blanks: zero-based array",
+        prompt: "Complete the pseudocode to count values above 60 in Scores. Remember Edexcel arrays start at 0.",
+        lines: [
+          `SET Scores TO [45, 80, 72, 21, 64]`,
+          `SET Count TO 0`,
+          ``,
+          `FOR Index FROM <input class="blank-input" id="b0" placeholder="?"> TO LENGTH(Scores) - 1 DO`,
+          `    IF Scores[Index] <input class="blank-input" id="b1" placeholder="?"> 60 THEN`,
+          `        SET Count TO Count + <input class="blank-input" id="b2" placeholder="?">`,
+          `    END IF`,
+          `END FOR`,
+          ``,
+          `SEND <input class="blank-input" id="b3" placeholder="?"> TO DISPLAY`
+        ],
+        answers: ["0", ">", "1", "Count"],
+        hint: "Arrays start at 0, so loop from 0 to LENGTH(Scores) - 1.",
+        model: `SET Scores TO [45, 80, 72, 21, 64]
+SET Count TO 0
+
+FOR Index FROM 0 TO LENGTH(Scores) - 1 DO
+    IF Scores[Index] > 60 THEN
+        SET Count TO Count + 1
+    END IF
+END FOR
+
+SEND Count TO DISPLAY`
+      },
+      {
+        type: "fill",
+        title: "Fill the blanks: MOD operator",
+        prompt: "Complete the pseudocode to output Even if Number is divisible by 2.",
+        lines: [
+          `RECEIVE Number FROM (INTEGER) KEYBOARD`,
+          ``,
+          `IF Number <input class="blank-input" id="b0" placeholder="?"> 2 = 0 THEN`,
+          `    SEND 'Even' TO DISPLAY`,
+          `ELSE`,
+          `    SEND 'Odd' TO DISPLAY`,
+          `<input class="blank-input" id="b1" placeholder="?">`
+        ],
+        answers: ["MOD", "END IF"],
+        hint: "Use MOD for the remainder. Use END IF with a space.",
+        model: `RECEIVE Number FROM (INTEGER) KEYBOARD
+
+IF Number MOD 2 = 0 THEN
+    SEND 'Even' TO DISPLAY
+ELSE
+    SEND 'Odd' TO DISPLAY
+END IF`
+      }
+    ];
+
+    const fixQuestions = [
+      {
+        type: "fix",
+        title: "Fix old-style pseudocode",
+        prompt: "Rewrite this using official Edexcel pseudocode.",
+        bad: `total = 0
+
+FOR count = 1 TO 5 DO
+    RECEIVE number FROM KEYBOARD
+    total = total + number
+ENDFOR
+
+SEND total TO SCREEN`,
+        points: ["SET Total TO 0", "FOR Count FROM 1 TO 5 DO", "RECEIVE Number FROM (INTEGER) KEYBOARD", "SET Total TO Total + Number", "END FOR", "SEND Total TO DISPLAY"],
+        hint: "Replace = with SET ... TO. Use DISPLAY. Use END FOR.",
+        model: `SET Total TO 0
+
+FOR Count FROM 1 TO 5 DO
+    RECEIVE Number FROM (INTEGER) KEYBOARD
+    SET Total TO Total + Number
+END FOR
+
+SEND Total TO DISPLAY`
+      },
+      {
+        type: "fix",
+        title: "Fix the IF statement",
+        prompt: "Rewrite this using correct Edexcel syntax.",
+        bad: `RECEIVE age FROM KEYBOARD
+
+IF age > 18
+    SEND "Adult" TO SCREEN
+ELSE
+    SEND "Not adult" TO SCREEN
+ENDIF`,
+        points: ["RECEIVE Age FROM (INTEGER) KEYBOARD", "IF Age >= 18 THEN", "SEND 'Adult' TO DISPLAY", "ELSE", "SEND 'Not adult' TO DISPLAY", "END IF"],
+        hint: "Use type coercion, THEN, DISPLAY and END IF. At least 18 means >= 18.",
+        model: `RECEIVE Age FROM (INTEGER) KEYBOARD
+
+IF Age >= 18 THEN
+    SEND 'Adult' TO DISPLAY
+ELSE
+    SEND 'Not adult' TO DISPLAY
+END IF`
+      },
+      {
+        type: "fix",
+        title: "Fix the array index error",
+        prompt: "This tries to search all items in an array, but it uses the wrong first index. Rewrite it correctly.",
+        bad: `SET Count TO 0
+
+FOR Index FROM 1 TO LENGTH(Scores) DO
+    IF Scores[Index] > 50 THEN
+        SET Count TO Count + 1
+    END IF
+END FOR
+
+SEND Count TO DISPLAY`,
+        points: ["FOR Index FROM 0 TO LENGTH(Scores) - 1 DO", "IF Scores[Index] > 50 THEN", "SET Count TO Count + 1", "END IF", "END FOR"],
+        hint: "Edexcel array indices start at 0, so the last index is LENGTH(Scores) - 1.",
+        model: `SET Count TO 0
+
+FOR Index FROM 0 TO LENGTH(Scores) - 1 DO
+    IF Scores[Index] > 50 THEN
+        SET Count TO Count + 1
+    END IF
+END FOR
+
+SEND Count TO DISPLAY`
+      }
+    ];
+
+    const writeQuestions = [
+      {
+        type: "write",
+        title: "Write pseudocode: average of 10 numbers",
+        prompt: "Write Edexcel pseudocode to input 10 integer numbers, calculate the average, and output the average.",
+        points: ["SET Total TO 0", "FOR Count FROM 1 TO 10 DO", "RECEIVE Number FROM (INTEGER) KEYBOARD", "SET Total TO Total + Number", "END FOR", "SET Average TO Total / 10", "SEND Average TO DISPLAY"],
+        hint: "Use SET ... TO and FOR Count FROM 1 TO 10 DO.",
+        model: `SET Total TO 0
+
+FOR Count FROM 1 TO 10 DO
+    RECEIVE Number FROM (INTEGER) KEYBOARD
+    SET Total TO Total + Number
+END FOR
+
+SET Average TO Total / 10
+SEND Average TO DISPLAY`
+      },
+      {
+        type: "write",
+        title: "Write pseudocode: validate age",
+        prompt: "Write Edexcel pseudocode to keep asking for Age until it is between 11 and 18 inclusive.",
+        points: ["REPEAT", "RECEIVE Age FROM (INTEGER) KEYBOARD", "UNTIL Age >= 11 AND Age <= 18", "SEND 'Age accepted' TO DISPLAY"],
+        hint: "Use REPEAT ... UNTIL because input must happen at least once.",
+        model: `REPEAT
+    RECEIVE Age FROM (INTEGER) KEYBOARD
+UNTIL Age >= 11 AND Age <= 18
+
+SEND 'Age accepted' TO DISPLAY`
+      },
+      {
+        type: "write",
+        title: "Write pseudocode: largest value in an array",
+        prompt: "The array Numbers already stores values. Write Edexcel pseudocode to find and output the largest value.",
+        points: ["SET Largest TO Numbers[0]", "FOR Index FROM 1 TO LENGTH(Numbers) - 1 DO", "IF Numbers[Index] > Largest THEN", "SET Largest TO Numbers[Index]", "END IF", "END FOR", "SEND Largest TO DISPLAY"],
+        hint: "Arrays start at 0. Start Largest as Numbers[0].",
+        model: `SET Largest TO Numbers[0]
+
+FOR Index FROM 1 TO LENGTH(Numbers) - 1 DO
+    IF Numbers[Index] > Largest THEN
+        SET Largest TO Numbers[Index]
+    END IF
+END FOR
+
+SEND Largest TO DISPLAY`
+      },
+      {
+        type: "write",
+        title: "Write pseudocode: concatenate words",
+        prompt: "The array Words stores words. Write pseudocode to combine all words into one Sentence, separated by spaces, then display it.",
+        points: ["SET Sentence TO ''", "FOR EACH Word FROM Words DO", "SET Sentence TO Sentence & Word & ' '", "END FOREACH", "SEND Sentence TO DISPLAY"],
+        hint: "Use & to append strings in Edexcel pseudocode.",
+        model: `SET Sentence TO ''
+
+FOR EACH Word FROM Words DO
+    SET Sentence TO Sentence & Word & ' '
+END FOREACH
+
+SEND Sentence TO DISPLAY`
+      }
+    ];
+
+    const operatorQuestions = [
+      {
+        type: "operators",
+        title: "Operator practice: MOD",
+        prompt: "What is the value of 17 MOD 5?",
+        answers: ["2"],
+        hint: "MOD gives the remainder after division.",
+        model: "17 MOD 5 = 2 because 17 divided by 5 is 3 remainder 2."
+      },
+      {
+        type: "operators",
+        title: "Operator practice: DIV",
+        prompt: "What is the value of 17 DIV 5?",
+        answers: ["3"],
+        hint: "DIV gives integer division, ignoring the remainder.",
+        model: "17 DIV 5 = 3 because 5 goes into 17 three whole times."
+      },
+      {
+        type: "operators",
+        title: "Operator practice: relational",
+        prompt: "Is the expression 8 <> 10 TRUE or FALSE?",
+        answers: ["TRUE"],
+        hint: "<> means not equal to.",
+        model: "8 <> 10 is TRUE because 8 is not equal to 10."
+      },
+      {
+        type: "operators",
+        title: "Operator practice: logical",
+        prompt: "Is the expression 7 > 3 AND 2 > 5 TRUE or FALSE?",
+        answers: ["FALSE"],
+        hint: "AND is true only if both conditions are true.",
+        model: "7 > 3 is TRUE, but 2 > 5 is FALSE. TRUE AND FALSE gives FALSE."
+      }
+    ];
+
+    const traceQuestions = [
+      {
+        type: "trace",
+        title: "Trace table: FOR loop",
+        prompt: "Complete the trace table.",
+        code: `SET Total TO 0
+
+FOR Index FROM 1 TO 4 DO
+    SET Total TO Total + Index
+END FOR
+
+SEND Total TO DISPLAY`,
+        headers: ["Step", "Index", "Total"],
+        rows: [
+          ["start", "-", "0"],
+          ["after Index = 1", "1", "1"],
+          ["after Index = 2", "2", "3"],
+          ["after Index = 3", "3", "6"],
+          ["after Index = 4", "4", "10"]
+        ],
+        hint: "Add the current Index value to Total each time.",
+        model: "The final output is 10."
+      },
+      {
+        type: "trace",
+        title: "Trace table: WHILE loop",
+        prompt: "Complete the trace table.",
+        code: `SET X TO 2
+SET Count TO 0
+
+WHILE X < 20 DO
+    SET X TO X * 2
+    SET Count TO Count + 1
+END WHILE
+
+SEND Count TO DISPLAY`,
+        headers: ["Step", "X", "Count"],
+        rows: [
+          ["start", "2", "0"],
+          ["loop 1", "4", "1"],
+          ["loop 2", "8", "2"],
+          ["loop 3", "16", "3"],
+          ["loop 4", "32", "4"]
+        ],
+        hint: "The loop stops only after X is no longer less than 20.",
+        model: "The final output is 4."
+      },
+      {
+        type: "trace",
+        title: "Trace table: MOD",
+        prompt: "Complete the trace table.",
+        code: `SET Number TO 13
+SET Result TO Number MOD 5
+
+SEND Result TO DISPLAY`,
+        headers: ["Variable", "Final value"],
+        rows: [
+          ["Number", "13"],
+          ["Result", "3"]
+        ],
+        hint: "13 divided by 5 leaves remainder 3.",
+        model: "The final output is 3."
+      }
+    ];
+
+    function openTab(id, btn) {
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      btn.classList.add("active");
+
+      const names = {
+        rules: "Command Set",
+        practice: "Practice",
+        trace: "Trace Tables",
+        models: "Model Answers"
+      };
+      document.getElementById("modeText").textContent = names[id];
+    }
+
+    function updateScore() {
+      document.getElementById("scoreText").textContent = `${score} / ${total}`;
+    }
+
+    function normalise(text) {
+      return String(text)
+        .toUpperCase()
+        .replace(/[“”]/g, "'")
+        .replace(/["]/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function looseNormalise(text) {
+      return normalise(text).replace(/\s/g, "");
+    }
+
+    function newQuestion() {
+      openTab("practice", document.querySelectorAll(".tab")[1]);
+
+      const type = document.getElementById("practiceType").value;
+      let pool;
+      if (type === "fill") pool = fillQuestions;
+      if (type === "fix") pool = fixQuestions;
+      if (type === "write") pool = writeQuestions;
+      if (type === "trace") pool = traceQuestions;
+      if (type === "operators") pool = operatorQuestions;
+
+      current = pool[Math.floor(Math.random() * pool.length)];
+      renderQuestion(current);
+    }
+
+    function renderQuestion(q) {
+      document.getElementById("feedbackArea").innerHTML = "";
+      document.getElementById("answerArea").innerHTML = "";
+
+      let html = `<span class="pill">${q.type.toUpperCase()}</span><h3>${q.title}</h3><p>${q.prompt}</p>`;
+
+      if (q.type === "fill") {
+        html += `<div class="card" style="background: rgba(2,6,23,.55);">`;
+        q.lines.forEach(line => {
+          html += `<div class="line">${line || "&nbsp;"}</div>`;
+        });
+        html += `</div><button onclick="checkFill()">Check Answer</button>`;
+      }
+
+      if (q.type === "fix") {
+        html += `<p class="small">Incorrect pseudocode:</p><pre>${escapeHtml(q.bad)}</pre>`;
+        html += `<textarea id="freeAnswer" placeholder="Rewrite the corrected Edexcel pseudocode here..."></textarea>`;
+        html += `<button onclick="checkFreeAnswer()">Check Key Points</button>`;
+      }
+
+      if (q.type === "write") {
+        html += `<textarea id="freeAnswer" placeholder="Write your Edexcel pseudocode here..."></textarea>`;
+        html += `<button onclick="checkFreeAnswer()">Check Key Points</button>`;
+      }
+
+      if (q.type === "trace") {
+        html += `<pre>${escapeHtml(q.code)}</pre>`;
+        html += renderTraceTable(q);
+        html += `<button onclick="checkTraceQuestion()">Check Trace</button>`;
+      }
+
+      if (q.type === "operators") {
+        html += `<div class="answer-row">
+          <input id="operatorAnswer" placeholder="Answer">
+          <button onclick="checkOperator()">Check</button>
+        </div>`;
+      }
+
+      document.getElementById("questionArea").innerHTML = html;
+    }
+
+    function renderTraceTable(q) {
+      let out = `<table><thead><tr>`;
+      q.headers.forEach(h => out += `<th class="center">${h}</th>`);
+      out += `</tr></thead><tbody>`;
+
+      q.rows.forEach((row, r) => {
+        out += `<tr>`;
+        row.forEach((cell, c) => {
+          if (c === 0) {
+            out += `<td class="center">${cell}</td>`;
+          } else {
+            out += `<td class="center"><input class="trace-input" id="t-${r}-${c}" placeholder="?"></td>`;
+          }
+        });
+        out += `</tr>`;
+      });
+
+      out += `</tbody></table>`;
+      return out;
+    }
+
+    function checkFill() {
+      let correct = 0;
+      current.answers.forEach((ans, i) => {
+        const input = document.getElementById(`b${i}`);
+        const value = looseNormalise(input.value);
+        const expected = looseNormalise(ans);
+        if (value === expected) {
+          correct++;
+          input.style.background = "#dcfce7";
+        } else {
+          input.style.background = "#fee2e2";
+        }
+      });
+
+      total += current.answers.length;
+      score += correct;
+      updateScore();
+
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback" + (correct === current.answers.length ? "" : " bad");
+      fb.innerHTML = correct === current.answers.length
+        ? `Full marks: ${correct} / ${current.answers.length}.\n\nModel answer:\n${current.model}`
+        : `You got ${correct} / ${current.answers.length}. Red boxes need correcting.\n\nModel answer:\n${current.model}`;
+    }
+
+    function checkFreeAnswer() {
+      const answer = looseNormalise(document.getElementById("freeAnswer").value);
+      let found = [];
+      let missing = [];
+
+      current.points.forEach(point => {
+        const target = looseNormalise(point);
+        if (answer.includes(target)) found.push(point);
+        else missing.push(point);
+      });
+
+      const earned = found.length;
+      total += current.points.length;
+      score += earned;
+      updateScore();
+
+      let fbText = `Estimated key points: ${earned} / ${current.points.length}\n\n`;
+
+      if (found.length > 0) {
+        fbText += `Detected:\n`;
+        found.forEach(p => fbText += `- ${p}\n`);
+      }
+
+      if (missing.length > 0) {
+        fbText += `\nPossible missing / command-set corrections:\n`;
+        missing.forEach(p => fbText += `- ${p}\n`);
+      }
+
+      fbText += `\nModel answer:\n${current.model}`;
+
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback" + (earned >= Math.ceil(current.points.length * 0.7) ? "" : " warn");
+      fb.innerHTML = fbText;
+    }
+
+    function checkTraceQuestion() {
+      let correct = 0;
+      let totalCells = 0;
+
+      current.rows.forEach((row, r) => {
+        row.forEach((cell, c) => {
+          if (c === 0) return;
+          totalCells++;
+          const input = document.getElementById(`t-${r}-${c}`);
+          const value = normalise(input.value);
+          const expected = normalise(cell);
+          if (value === expected) {
+            correct++;
+            input.style.background = "#dcfce7";
+          } else {
+            input.style.background = "#fee2e2";
+          }
+        });
+      });
+
+      total += totalCells;
+      score += correct;
+      updateScore();
+
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback" + (correct === totalCells ? "" : " bad");
+      fb.innerHTML = correct === totalCells
+        ? `Full marks: ${correct} / ${totalCells}.\n${current.model}`
+        : `You got ${correct} / ${totalCells}. Red boxes need correcting.\n${current.model}`;
+    }
+
+    function checkOperator() {
+      const input = document.getElementById("operatorAnswer");
+      const value = normalise(input.value);
+      const possible = current.answers.map(a => normalise(a));
+      const correct = possible.includes(value);
+
+      total += 1;
+      if (correct) score += 1;
+      updateScore();
+
+      input.style.background = correct ? "#dcfce7" : "#fee2e2";
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback" + (correct ? "" : " bad");
+      fb.innerHTML = correct ? `Correct.\n\n${current.model}` : `Not quite.\n\n${current.model}`;
+    }
+
+    function showHint() {
+      if (!current) newQuestion();
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback";
+      fb.innerHTML = "Hint: " + current.hint;
+    }
+
+    function showAnswer() {
+      if (!current) newQuestion();
+      const fb = document.getElementById("feedbackArea");
+      fb.className = "feedback";
+      fb.innerHTML = "Model answer:\n" + current.model;
+    }
+
+    function resetScore() {
+      score = 0;
+      total = 0;
+      updateScore();
+      document.getElementById("feedbackArea").innerHTML = "";
+      document.getElementById("mainTraceFeedback").innerHTML = "";
+    }
+
+    function checkMainTrace() {
+      const answers = ["0", "1", "3", "6", "10"];
+      let correct = 0;
+      answers.forEach((ans, i) => {
+        const input = document.getElementById(`tr${i}`);
+        if (normalise(input.value) === ans) {
+          correct++;
+          input.style.background = "#dcfce7";
+        } else {
+          input.style.background = "#fee2e2";
+        }
+      });
+      total += answers.length;
+      score += correct;
+      updateScore();
+
+      const fb = document.getElementById("mainTraceFeedback");
+      fb.className = "feedback" + (correct === answers.length ? "" : " bad");
+      fb.innerHTML = correct === answers.length
+        ? "Full marks. The final output is 10."
+        : `You got ${correct} / ${answers.length}. The correct Total values are 0, 1, 3, 6, 10.`;
+    }
+
+    function fillMainTrace() {
+      const answers = ["0", "1", "3", "6", "10"];
+      answers.forEach((ans, i) => {
+        document.getElementById(`tr${i}`).value = ans;
+      });
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, function(match) {
+        const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+        return map[match];
+      });
+    }
+
+    updateScore();
+  </script>
+</body>
+</html>

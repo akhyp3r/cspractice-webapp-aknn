@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGCSE Edexcel Computer Science - Communication and the Internet Flashcards</title>
+  <style>
+    :root {
+      --bg: #071a10;
+      --text: #f0fdf4;
+      --muted: #bbf7d0;
+      --green: #22c55e;
+      --green2: #4ade80;
+      --lime: #a3e635;
+      --card: #102118;
+      --card2: #163222;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.28), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(163, 230, 53, 0.18), transparent 30%),
+        var(--bg);
+      padding: 24px;
+    }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto 22px auto;
+      padding: 24px;
+      text-align: center;
+      border-radius: 28px;
+      background: rgba(16, 33, 24, 0.84);
+      border: 1px solid rgba(240, 253, 244, 0.12);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.30);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 880px;
+      margin: 12px auto 0 auto;
+      line-height: 1.55;
+    }
+
+    .chapter-list {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.20);
+      color: #dcfce7;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+
+    .topbar {
+      max-width: 1180px;
+      margin: 0 auto 20px auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .controls, .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(16, 33, 24, 0.68);
+      border: 1px solid rgba(240, 253, 244, 0.09);
+    }
+
+    button, select, input {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    button {
+      background: rgba(240, 253, 244, 0.12);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: rgba(240, 253, 244, 0.22);
+    }
+
+    select, input {
+      background: rgba(240, 253, 244, 0.98);
+      color: #052e16;
+      min-width: 250px;
+    }
+
+    .progress-wrap {
+      max-width: 760px;
+      margin: 0 auto 24px auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 13px;
+      background: rgba(240, 253, 244, 0.13);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--lime));
+      transition: width 0.25s ease;
+    }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 18px;
+    }
+
+    .flashcard {
+      perspective: 1100px;
+      min-height: 275px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 275px;
+      transition: transform 0.62s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 26px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(240, 253, 244, 0.13);
+    }
+
+    .front {
+      background: linear-gradient(145deg, rgba(16, 33, 24, 0.98), rgba(22, 50, 34, 0.98));
+    }
+
+    .back {
+      background: linear-gradient(145deg, rgba(20, 83, 45, 0.97), rgba(22, 101, 52, 0.97));
+      transform: rotateY(180deg);
+    }
+
+    .tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.22);
+      color: #dcfce7;
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    .number {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .question, .answer {
+      font-size: 1.03rem;
+      line-height: 1.5;
+      margin: 8px 0 18px 0;
+    }
+
+    .answer-label {
+      color: #d9f99d;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 34px auto 0 auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      header, .topbar, .progress-wrap, footer {
+        box-shadow: none;
+        background: white;
+        color: black;
+      }
+      .controls, .filters {
+        display: none;
+      }
+      .grid {
+        display: block;
+      }
+      .flashcard {
+        page-break-inside: avoid;
+        margin-bottom: 18px;
+      }
+      .flashcard-inner, .flashcard.flipped .flashcard-inner {
+        transform: none;
+      }
+      .face {
+        position: relative;
+        color: black;
+        background: white !important;
+        border: 1px solid #999;
+        box-shadow: none;
+        margin-bottom: 8px;
+      }
+      .back {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>IGCSE Edexcel Computer Science — COMMUNICATION AND THE INTERNET</h1>
+    <p class="subtitle">
+      50 Pearson-style flashcards for the Communication and the Internet unit. Click each card to reveal a student-style answer.
+      These cover networks, network security, and the internet and the World Wide Web.
+    </p>
+    <div class="chapter-list">
+      <span class="pill">21. Networks</span>
+      <span class="pill">22. Network Security</span>
+      <span class="pill">23. The Internet and the World Wide Web</span>
+    </div>
+  </header>
+
+  <section class="topbar">
+    <div class="controls">
+      <button onclick="shuffleCards()">Shuffle</button>
+      <button onclick="flipAll(true)">Show All Answers</button>
+      <button onclick="flipAll(false)">Show All Questions</button>
+      <button onclick="resetProgress()">Reset Progress</button>
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="filters">
+      <select id="chapterFilter" onchange="applyFilters()">
+        <option value="All">All Chapters</option>
+      </select>
+      <input id="searchInput" type="search" placeholder="Search cards..." oninput="applyFilters()" />
+    </div>
+  </section>
+
+  <section class="progress-wrap">
+    <div id="progressText">0 / 50 cards viewed</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </section>
+
+  <main class="grid" id="cardGrid"></main>
+
+  <footer>
+    Exam tip: For network questions, use exact terms such as LAN, WAN, IP address, DNS, HTTP, HTTPS, authentication, authorisation and firewall.
+  </footer>
+
+  <script>
+    const originalCards = [
+      {
+            "chapter": "21. Networks",
+            "q": "What is a computer network?",
+            "a": "A computer network is two or more devices connected together so that they can communicate and share data or resources."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give two advantages of using a network.",
+            "a": "Users can share files and resources, such as printers. Communication between users is easier, and data can be backed up centrally."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give two disadvantages of using a network.",
+            "a": "Networks can be expensive to set up and maintain. They can also create security risks if unauthorised users gain access."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a LAN?",
+            "a": "A LAN is a Local Area Network. It connects devices over a small geographical area, such as a home, school or office."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a WAN?",
+            "a": "A WAN is a Wide Area Network. It connects devices over a large geographical area, such as different cities or countries."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Explain one difference between a LAN and a WAN.",
+            "a": "A LAN covers a small area and is usually owned by one organisation. A WAN covers a large area and often uses third-party communication links."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a client-server network?",
+            "a": "A client-server network uses a central server to provide services and resources to client computers."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give one advantage of a client-server network.",
+            "a": "Security, user accounts, backups and files can be managed centrally, making the network easier to control."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give one disadvantage of a client-server network.",
+            "a": "It can be expensive to set up and maintain. If the server fails, many users may lose access to services."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a peer-to-peer network?",
+            "a": "A peer-to-peer network is a network where devices communicate directly and can share resources without a central server."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give one advantage of a peer-to-peer network.",
+            "a": "It is usually cheaper and easier to set up because a dedicated server is not needed."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Give one disadvantage of a peer-to-peer network.",
+            "a": "It is harder to manage security and backups because there is no central control."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a router?",
+            "a": "A router is a network device that forwards data packets between networks and helps direct data to its destination."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a switch?",
+            "a": "A switch connects devices on a LAN and forwards data to the correct device using its MAC address."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a wireless access point?",
+            "a": "A wireless access point allows wireless devices to connect to a wired network using Wi-Fi."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is a Network Interface Card?",
+            "a": "A Network Interface Card, or NIC, allows a device to connect to a network, either using a cable or wirelessly."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is bandwidth?",
+            "a": "Bandwidth is the amount of data that can be transmitted over a network connection in a given time."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "Explain how low bandwidth can affect network performance.",
+            "a": "Low bandwidth means less data can be sent at one time, so downloads, uploads and streaming may be slower."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is latency?",
+            "a": "Latency is the delay before data begins to transfer or before a response is received across a network."
+      },
+      {
+            "chapter": "21. Networks",
+            "q": "What is packet switching?",
+            "a": "Packet switching is when data is split into packets and each packet is sent across a network before being reassembled at the destination."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Why is network security important?",
+            "a": "Network security is important because it protects data and systems from unauthorised access, damage, theft or disruption."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is authentication?",
+            "a": "Authentication is the process of checking that a user is who they claim to be, usually using a username and password."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is authorisation?",
+            "a": "Authorisation is the process of checking what a user is allowed to access or do after they have been authenticated."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Explain the difference between authentication and authorisation.",
+            "a": "Authentication checks the user’s identity. Authorisation checks the permissions the user has."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a strong password?",
+            "a": "A strong password is difficult to guess and may include a mixture of upper-case letters, lower-case letters, numbers and symbols."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Explain how two-factor authentication improves security.",
+            "a": "Two-factor authentication requires two forms of verification, so an attacker cannot easily access an account using only a stolen password."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is malware?",
+            "a": "Malware is malicious software designed to damage, disrupt or gain unauthorised access to a computer system."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Give two examples of malware.",
+            "a": "Examples include viruses, worms, Trojan horses, spyware, ransomware and keyloggers."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a virus?",
+            "a": "A virus is malware that attaches itself to files or programs and can replicate when the infected file is run."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a worm?",
+            "a": "A worm is malware that can spread across networks by itself without needing to attach to another program."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a Trojan horse?",
+            "a": "A Trojan horse is malware disguised as legitimate software to trick the user into installing or running it."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is spyware?",
+            "a": "Spyware is software that secretly collects information about a user or their activity without permission."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is ransomware?",
+            "a": "Ransomware is malware that encrypts or locks a user’s files and demands payment to restore access."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is phishing?",
+            "a": "Phishing is when an attacker pretends to be a trusted person or organisation to trick users into giving away sensitive information."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "How can users reduce the risk of phishing?",
+            "a": "Users should check the sender, avoid suspicious links, check website addresses, and not enter personal details on untrusted websites."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a brute-force attack?",
+            "a": "A brute-force attack repeatedly tries many possible passwords until the correct one is found."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Give two ways to reduce the risk of brute-force attacks.",
+            "a": "Use strong passwords, limit login attempts, add delays after failed attempts, lock accounts temporarily, or use two-factor authentication."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a DDoS attack?",
+            "a": "A DDoS attack uses many devices to flood a server or network with traffic, making the service slow or unavailable."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "What is a firewall?",
+            "a": "A firewall monitors network traffic and blocks unauthorised or suspicious traffic based on security rules."
+      },
+      {
+            "chapter": "22. Network Security",
+            "q": "Explain how antivirus software protects a computer.",
+            "a": "Antivirus software scans files and programs for malware. It can quarantine, remove or block infected files."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is the internet?",
+            "a": "The internet is a global network of connected networks that allows devices around the world to communicate."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is the World Wide Web?",
+            "a": "The World Wide Web is a service that runs on the internet. It consists of websites and webpages accessed using web browsers."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "Explain the difference between the internet and the World Wide Web.",
+            "a": "The internet is the global network infrastructure. The World Wide Web is a collection of webpages and websites that use the internet."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is a URL?",
+            "a": "A URL is the address of a resource on the web, such as a webpage."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is an IP address?",
+            "a": "An IP address is a unique address used to identify a device on a network so data can be sent to the correct destination."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is a domain name?",
+            "a": "A domain name is a human-readable name used to identify a website, such as example.com."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is DNS?",
+            "a": "DNS stands for Domain Name System. It translates domain names into IP addresses."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "Explain what happens when a user enters a URL into a browser.",
+            "a": "The browser uses DNS to find the IP address. It sends a request to the web server using HTTP or HTTPS. The server sends the webpage data back and the browser displays it."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is HTTP?",
+            "a": "HTTP is a protocol used to transfer webpages and web data between a web browser and a web server."
+      },
+      {
+            "chapter": "23. The Internet and the World Wide Web",
+            "q": "What is HTTPS?",
+            "a": "HTTPS is a secure version of HTTP. It encrypts data sent between the browser and the web server."
+      }
+];
+    let currentCards = [...originalCards];
+    const viewed = new Set();
+
+    function populateChapters() {
+      const chapters = [...new Set(originalCards.map(card => card.chapter))];
+      const select = document.getElementById("chapterFilter");
+      chapters.forEach(chapter => {
+        const option = document.createElement("option");
+        option.value = chapter;
+        option.textContent = chapter;
+        select.appendChild(option);
+      });
+    }
+
+    function createCard(card) {
+      const originalIndex = originalCards.indexOf(card);
+      const div = document.createElement("article");
+      div.className = "flashcard";
+      div.tabIndex = 0;
+      div.innerHTML = `
+        <div class="flashcard-inner">
+          <section class="face front">
+            <div>
+              <div class="tag-row">
+                <span class="tag">${card.chapter}</span>
+                <span class="number">Q${originalIndex + 1}</span>
+              </div>
+              <div class="question">${card.q}</div>
+            </div>
+            <div class="small">Click to reveal answer</div>
+          </section>
+          <section class="face back">
+            <div>
+              <div class="tag-row">
+                <span class="tag">Answer</span>
+                <span class="number">A${originalIndex + 1}</span>
+              </div>
+              <div class="answer">
+                <div class="answer-label">Pearson-style student answer</div>
+                ${card.a}
+              </div>
+            </div>
+            <div class="small">Click again to return to question</div>
+          </section>
+        </div>
+      `;
+
+      div.addEventListener("click", () => {
+        div.classList.toggle("flipped");
+        viewed.add(originalIndex);
+        updateProgress();
+      });
+
+      div.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          div.click();
+        }
+      });
+
+      return div;
+    }
+
+    function renderCards(cardList = currentCards) {
+      const grid = document.getElementById("cardGrid");
+      grid.innerHTML = "";
+      if (cardList.length === 0) {
+        grid.innerHTML = "<p style='color:#bbf7d0; text-align:center; grid-column:1/-1;'>No cards match your filter.</p>";
+        return;
+      }
+      cardList.forEach(card => grid.appendChild(createCard(card)));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = originalCards.length;
+      const count = viewed.size;
+      document.getElementById("progressText").textContent = `${count} / ${total} cards viewed`;
+      document.getElementById("progressFill").style.width = `${(count / total) * 100}%`;
+    }
+
+    function shuffleCards() {
+      currentCards = [...currentCards].sort(() => Math.random() - 0.5);
+      renderCards(currentCards);
+    }
+
+    function flipAll(showAnswers) {
+      document.querySelectorAll(".flashcard").forEach(card => {
+        card.classList.toggle("flipped", showAnswers);
+      });
+      if (showAnswers) {
+        currentCards.forEach(card => viewed.add(originalCards.indexOf(card)));
+      }
+      updateProgress();
+    }
+
+    function resetProgress() {
+      viewed.clear();
+      document.querySelectorAll(".flashcard").forEach(card => card.classList.remove("flipped"));
+      updateProgress();
+    }
+
+    function applyFilters() {
+      const chapter = document.getElementById("chapterFilter").value;
+      const search = document.getElementById("searchInput").value.toLowerCase().trim();
+      currentCards = originalCards.filter(card => {
+        const matchesChapter = chapter === "All" || card.chapter === chapter;
+        const matchesSearch = !search || card.q.toLowerCase().includes(search) || card.a.toLowerCase().includes(search);
+        return matchesChapter && matchesSearch;
+      });
+      renderCards(currentCards);
+    }
+
+    populateChapters();
+    renderCards();
+  </script>
+</body>
+</html>

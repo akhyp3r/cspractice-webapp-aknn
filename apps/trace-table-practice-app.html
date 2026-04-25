@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IGCSE Edexcel Computer Science Trace Table Practice</title>
+<style>
+:root {
+  --bg:#07111f;
+  --panel:#0f172a;
+  --panel2:#111827;
+  --text:#f8fafc;
+  --muted:#cbd5e1;
+  --accent:#38bdf8;
+  --green:#22c55e;
+  --red:#ef4444;
+  --orange:#fb923c;
+  --purple:#a78bfa;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  min-height:100vh;
+  font-family:Arial, Helvetica, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(56,189,248,.18), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(167,139,250,.16), transparent 32%),
+    var(--bg);
+}
+header {
+  max-width:1200px;
+  margin:0 auto;
+  padding:28px 20px 16px;
+  text-align:center;
+}
+h1 {
+  margin:0;
+  font-size:clamp(1.8rem,4vw,3.3rem);
+  letter-spacing:-.05em;
+}
+.subtitle {
+  color:var(--muted);
+  max-width:860px;
+  margin:10px auto 0;
+  line-height:1.5;
+}
+.app {
+  max-width:1200px;
+  margin:0 auto;
+  padding:18px;
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:18px;
+}
+.sidebar, .main {
+  background:rgba(15,23,42,.82);
+  border:1px solid rgba(248,250,252,.12);
+  border-radius:26px;
+  box-shadow:0 18px 50px rgba(0,0,0,.26);
+}
+.sidebar {
+  padding:18px;
+  height:fit-content;
+  position:sticky;
+  top:16px;
+}
+.main {
+  padding:20px;
+  min-width:0;
+}
+.stat {
+  background:rgba(248,250,252,.08);
+  border-radius:18px;
+  padding:13px;
+  margin-bottom:12px;
+}
+.stat-label {
+  color:var(--muted);
+  font-size:.85rem;
+  margin-bottom:4px;
+}
+.stat-value {
+  font-weight:900;
+  font-size:1.2rem;
+}
+button, select {
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:12px 14px;
+  font-weight:900;
+  font-size:.94rem;
+  margin-top:10px;
+}
+button {
+  background:rgba(56,189,248,.18);
+  color:var(--text);
+  cursor:pointer;
+}
+button:hover { background:rgba(56,189,248,.28); }
+.secondary { background:rgba(248,250,252,.10); }
+.danger { background:rgba(239,68,68,.18); }
+select {
+  background:#f8fafc;
+  color:#0f172a;
+}
+.tip {
+  color:var(--muted);
+  line-height:1.45;
+  font-size:.88rem;
+  margin-top:14px;
+  background:rgba(34,197,94,.10);
+  border:1px solid rgba(34,197,94,.18);
+  border-radius:18px;
+  padding:13px;
+}
+.question-top {
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+  margin-bottom:16px;
+}
+.badges {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.badge {
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(56,189,248,.16);
+  color:#bae6fd;
+  font-weight:900;
+  font-size:.78rem;
+}
+.badge.orange { background:rgba(251,146,60,.17); color:#fed7aa; }
+.badge.purple { background:rgba(167,139,250,.18); color:#ddd6fe; }
+h2 {
+  margin:0 0 8px;
+  font-size:clamp(1.4rem,3vw,2.2rem);
+  letter-spacing:-.03em;
+}
+.instruction {
+  color:var(--muted);
+  margin:0;
+}
+.code-box {
+  background:#020617;
+  color:#e2e8f0;
+  border:1px solid rgba(248,250,252,.12);
+  border-radius:20px;
+  padding:18px;
+  overflow:auto;
+  font-family:"Courier New", monospace;
+  white-space:pre;
+  line-height:1.55;
+  margin:16px 0;
+}
+.table-wrap {
+  overflow:auto;
+  border-radius:18px;
+  border:1px solid rgba(248,250,252,.12);
+  margin-top:16px;
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:620px;
+  background:rgba(17,24,39,.78);
+}
+th,td {
+  border-bottom:1px solid rgba(248,250,252,.10);
+  border-right:1px solid rgba(248,250,252,.08);
+  padding:10px;
+  text-align:center;
+}
+th {
+  background:rgba(248,250,252,.08);
+  color:#e2e8f0;
+  font-size:.9rem;
+}
+td:first-child, th:first-child {
+  width:62px;
+  color:var(--muted);
+  font-weight:900;
+}
+td:last-child, th:last-child { border-right:0; }
+tr:last-child td { border-bottom:0; }
+.cell-input {
+  width:100%;
+  min-width:90px;
+  border:1px solid rgba(248,250,252,.16);
+  border-radius:10px;
+  padding:9px;
+  text-align:center;
+  background:#f8fafc;
+  color:#0f172a;
+  font-weight:800;
+}
+.cell-input.correct {
+  background:#dcfce7;
+  border-color:#22c55e;
+}
+.cell-input.wrong {
+  background:#fee2e2;
+  border-color:#ef4444;
+}
+.feedback {
+  margin-top:16px;
+  border-radius:20px;
+  padding:16px;
+  background:rgba(56,189,248,.11);
+  border:1px solid rgba(56,189,248,.18);
+  color:var(--muted);
+  line-height:1.5;
+}
+.feedback strong { color:var(--text); }
+.answer-table input {
+  background:#dbeafe;
+}
+.progress-bar {
+  height:12px;
+  background:rgba(248,250,252,.12);
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.progress-fill {
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--purple));
+  transition:.25s;
+}
+.footer-note {
+  max-width:1200px;
+  margin:0 auto 28px;
+  padding:0 18px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+}
+@media(max-width:900px) {
+  .app { grid-template-columns:1fr; }
+  .sidebar { position:static; }
+  .question-top { flex-direction:column; }
+}
+@media print {
+  body { background:white; color:black; }
+  .sidebar, header button, .feedback button { display:none; }
+  .app { display:block; max-width:none; }
+  .main { box-shadow:none; background:white; color:black; border:0; }
+  .code-box { color:black; background:white; border:1px solid #999; }
+  table { background:white; color:black; }
+  .cell-input { border:0; color:black; background:white; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>IGCSE Edexcel Trace Table Practice</h1>
+  <p class="subtitle">Practise Paper 2 style trace tables. Read the pseudocode, fill the table, then check your answers. The table follows the common exam method: record values after important assignments and outputs.</p>
+</header>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="stat">
+      <div class="stat-label">Current score</div>
+      <div class="stat-value" id="scoreText">0 / 0</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Question</div>
+      <div class="stat-value" id="questionCounter">1 / 27</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Difficulty</div>
+      <div class="stat-value" id="difficultyText">Basic</div>
+    </div>
+
+    <select id="difficultyFilter" onchange="resetQuestionPool()">
+      <option value="All">All difficulties</option>
+    </select>
+    <select id="topicFilter" onchange="resetQuestionPool()">
+      <option value="All">All topics</option>
+    </select>
+
+    <button onclick="checkAnswers()">Check Answers</button>
+    <button class="secondary" onclick="showAnswers()">Show Answers</button>
+    <button class="secondary" onclick="clearTable()">Clear Table</button>
+    <button class="secondary" onclick="newQuestion()">New Question</button>
+    <button class="danger" onclick="resetProgress()">Reset Progress</button>
+
+    <div class="tip">
+      <strong>Exam tip:</strong><br>
+      In trace tables, update values carefully after each assignment. For OUTPUT, write exactly what would appear on the screen.
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="question-top">
+      <div>
+        <div class="badges">
+          <span class="badge" id="topicBadge">Topic</span>
+          <span class="badge orange" id="difficultyBadge">Difficulty</span>
+          <span class="badge purple" id="rowsBadge">Rows</span>
+        </div>
+        <h2 id="questionTitle">Question title</h2>
+        <p class="instruction" id="instructions">Instructions</p>
+      </div>
+    </section>
+
+    <pre class="code-box" id="codeBox"></pre>
+
+    <div class="table-wrap">
+      <table id="traceTable"></table>
+    </div>
+
+    <div class="feedback" id="feedback">
+      Fill in the trace table, then click <strong>Check Answers</strong>.
+    </div>
+  </main>
+</div>
+
+<p class="footer-note">This is a standalone practice web app. It works offline after downloading.</p>
+
+<script>
+const questions = [
+  {
+    "title": "Sum using a FOR loop",
+    "difficulty": "Basic loops",
+    "topic": "FOR loop",
+    "instructions": "Complete a row after each loop cycle.",
+    "code": "total = 0\nFOR i = 1 TO 5\n    total = total + i\nEND FOR\nOUTPUT total",
+    "columns": [
+      "i",
+      "total",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "0",
+        ""
+      ],
+      [
+        "1",
+        "1",
+        ""
+      ],
+      [
+        "2",
+        "3",
+        ""
+      ],
+      [
+        "3",
+        "6",
+        ""
+      ],
+      [
+        "4",
+        "10",
+        ""
+      ],
+      [
+        "5",
+        "15",
+        ""
+      ],
+      [
+        "",
+        "15",
+        "15"
+      ]
+    ],
+    "explanation": "The value of i goes from 1 to 5. Each time, i is added to total. The final total is 15."
+  },
+  {
+    "title": "Multiplication by repeated addition",
+    "difficulty": "Basic loops",
+    "topic": "FOR loop",
+    "instructions": "Trace count and answer after each loop cycle.",
+    "code": "answer = 0\nFOR count = 1 TO 4\n    answer = answer + 3\nEND FOR\nOUTPUT answer",
+    "columns": [
+      "count",
+      "answer",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "0",
+        ""
+      ],
+      [
+        "1",
+        "3",
+        ""
+      ],
+      [
+        "2",
+        "6",
+        ""
+      ],
+      [
+        "3",
+        "9",
+        ""
+      ],
+      [
+        "4",
+        "12",
+        ""
+      ],
+      [
+        "",
+        "12",
+        "12"
+      ]
+    ],
+    "explanation": "3 is added four times, so the answer is 12."
+  },
+  {
+    "title": "WHILE loop counter",
+    "difficulty": "Basic loops",
+    "topic": "WHILE loop",
+    "instructions": "Trace values after each pass through the WHILE loop.",
+    "code": "x = 2\nWHILE x < 10\n    x = x + 2\nEND WHILE\nOUTPUT x",
+    "columns": [
+      "x",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "2",
+        ""
+      ],
+      [
+        "4",
+        ""
+      ],
+      [
+        "6",
+        ""
+      ],
+      [
+        "8",
+        ""
+      ],
+      [
+        "10",
+        ""
+      ],
+      [
+        "10",
+        "10"
+      ]
+    ],
+    "explanation": "The loop continues while x is less than 10. When x becomes 10, the condition is false, so 10 is output."
+  },
+  {
+    "title": "Count down loop",
+    "difficulty": "Basic loops",
+    "topic": "WHILE loop",
+    "instructions": "Trace n after each change.",
+    "code": "n = 6\nWHILE n > 0\n    OUTPUT n\n    n = n - 2\nEND WHILE",
+    "columns": [
+      "n",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "6",
+        ""
+      ],
+      [
+        "6",
+        "6"
+      ],
+      [
+        "4",
+        ""
+      ],
+      [
+        "4",
+        "4"
+      ],
+      [
+        "2",
+        ""
+      ],
+      [
+        "2",
+        "2"
+      ],
+      [
+        "0",
+        ""
+      ]
+    ],
+    "explanation": "The loop outputs 6, 4 and 2. It stops when n becomes 0 because n > 0 is false."
+  },
+  {
+    "title": "Selection inside loop",
+    "difficulty": "Selection",
+    "topic": "IF inside FOR",
+    "instructions": "Trace score and message after each loop cycle.",
+    "code": "score = 0\nFOR i = 1 TO 4\n    IF i MOD 2 = 0 THEN\n        score = score + 5\n    ELSE\n        score = score + 1\n    END IF\nEND FOR\nOUTPUT score",
+    "columns": [
+      "i",
+      "score",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "0",
+        ""
+      ],
+      [
+        "1",
+        "1",
+        ""
+      ],
+      [
+        "2",
+        "6",
+        ""
+      ],
+      [
+        "3",
+        "7",
+        ""
+      ],
+      [
+        "4",
+        "12",
+        ""
+      ],
+      [
+        "",
+        "12",
+        "12"
+      ]
+    ],
+    "explanation": "Odd values add 1. Even values add 5. So score becomes 1, 6, 7, 12."
+  },
+  {
+    "title": "Maximum value",
+    "difficulty": "Selection",
+    "topic": "IF statement",
+    "instructions": "Trace max after each item is checked.",
+    "code": "numbers = [4, 9, 2, 11, 7]\nmax = numbers[0]\nFOR i = 1 TO 4\n    IF numbers[i] > max THEN\n        max = numbers[i]\n    END IF\nEND FOR\nOUTPUT max",
+    "columns": [
+      "i",
+      "numbers[i]",
+      "max",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "4",
+        ""
+      ],
+      [
+        "1",
+        "9",
+        "9",
+        ""
+      ],
+      [
+        "2",
+        "2",
+        "9",
+        ""
+      ],
+      [
+        "3",
+        "11",
+        "11",
+        ""
+      ],
+      [
+        "4",
+        "7",
+        "11",
+        ""
+      ],
+      [
+        "",
+        "",
+        "11",
+        "11"
+      ]
+    ],
+    "explanation": "The largest value found is updated when a bigger number appears. The final maximum is 11."
+  },
+  {
+    "title": "Minimum value",
+    "difficulty": "Selection",
+    "topic": "Array and IF",
+    "instructions": "Trace min after each item is checked.",
+    "code": "values = [8, 6, 10, 3, 5]\nmin = values[0]\nFOR i = 1 TO 4\n    IF values[i] < min THEN\n        min = values[i]\n    END IF\nEND FOR\nOUTPUT min",
+    "columns": [
+      "i",
+      "values[i]",
+      "min",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "8",
+        ""
+      ],
+      [
+        "1",
+        "6",
+        "6",
+        ""
+      ],
+      [
+        "2",
+        "10",
+        "6",
+        ""
+      ],
+      [
+        "3",
+        "3",
+        "3",
+        ""
+      ],
+      [
+        "4",
+        "5",
+        "3",
+        ""
+      ],
+      [
+        "",
+        "",
+        "3",
+        "3"
+      ]
+    ],
+    "explanation": "The smallest value found is updated when a smaller number appears. The final minimum is 3."
+  },
+  {
+    "title": "Count values above 10",
+    "difficulty": "Arrays",
+    "topic": "Array traversal",
+    "instructions": "Trace count after each array value is checked.",
+    "code": "marks = [7, 12, 15, 9, 11]\ncount = 0\nFOR i = 0 TO 4\n    IF marks[i] > 10 THEN\n        count = count + 1\n    END IF\nEND FOR\nOUTPUT count",
+    "columns": [
+      "i",
+      "marks[i]",
+      "count",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "0",
+        ""
+      ],
+      [
+        "0",
+        "7",
+        "0",
+        ""
+      ],
+      [
+        "1",
+        "12",
+        "1",
+        ""
+      ],
+      [
+        "2",
+        "15",
+        "2",
+        ""
+      ],
+      [
+        "3",
+        "9",
+        "2",
+        ""
+      ],
+      [
+        "4",
+        "11",
+        "3",
+        ""
+      ],
+      [
+        "",
+        "",
+        "3",
+        "3"
+      ]
+    ],
+    "explanation": "12, 15 and 11 are greater than 10, so the count is 3."
+  },
+  {
+    "title": "Linear search found",
+    "difficulty": "Arrays",
+    "topic": "Linear search",
+    "instructions": "Trace i, found and position after each loop cycle.",
+    "code": "items = [3, 8, 6, 10]\ntarget = 6\nfound = FALSE\nposition = -1\nFOR i = 0 TO 3\n    IF items[i] = target THEN\n        found = TRUE\n        position = i\n    END IF\nEND FOR\nOUTPUT position",
+    "columns": [
+      "i",
+      "items[i]",
+      "found",
+      "position",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "FALSE",
+        "-1",
+        ""
+      ],
+      [
+        "0",
+        "3",
+        "FALSE",
+        "-1",
+        ""
+      ],
+      [
+        "1",
+        "8",
+        "FALSE",
+        "-1",
+        ""
+      ],
+      [
+        "2",
+        "6",
+        "TRUE",
+        "2",
+        ""
+      ],
+      [
+        "3",
+        "10",
+        "TRUE",
+        "2",
+        ""
+      ],
+      [
+        "",
+        "",
+        "TRUE",
+        "2",
+        "2"
+      ]
+    ],
+    "explanation": "The target 6 is found at index 2. The loop still checks the last value because there is no early stop."
+  },
+  {
+    "title": "Linear search not found",
+    "difficulty": "Arrays",
+    "topic": "Linear search",
+    "instructions": "Trace found after each item is checked.",
+    "code": "data = [5, 2, 9, 4]\ntarget = 7\nfound = FALSE\nFOR i = 0 TO 3\n    IF data[i] = target THEN\n        found = TRUE\n    END IF\nEND FOR\nOUTPUT found",
+    "columns": [
+      "i",
+      "data[i]",
+      "found",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "FALSE",
+        ""
+      ],
+      [
+        "0",
+        "5",
+        "FALSE",
+        ""
+      ],
+      [
+        "1",
+        "2",
+        "FALSE",
+        ""
+      ],
+      [
+        "2",
+        "9",
+        "FALSE",
+        ""
+      ],
+      [
+        "3",
+        "4",
+        "FALSE",
+        ""
+      ],
+      [
+        "",
+        "",
+        "FALSE",
+        "FALSE"
+      ]
+    ],
+    "explanation": "7 is not in the array, so found stays FALSE."
+  },
+  {
+    "title": "Nested loop total",
+    "difficulty": "Hard",
+    "topic": "Nested loops",
+    "instructions": "Trace total after each inner loop cycle.",
+    "code": "total = 0\nFOR i = 1 TO 2\n    FOR j = 1 TO 3\n        total = total + i + j\n    END FOR\nEND FOR\nOUTPUT total",
+    "columns": [
+      "i",
+      "j",
+      "total",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "0",
+        ""
+      ],
+      [
+        "1",
+        "1",
+        "2",
+        ""
+      ],
+      [
+        "1",
+        "2",
+        "5",
+        ""
+      ],
+      [
+        "1",
+        "3",
+        "9",
+        ""
+      ],
+      [
+        "2",
+        "1",
+        "12",
+        ""
+      ],
+      [
+        "2",
+        "2",
+        "16",
+        ""
+      ],
+      [
+        "2",
+        "3",
+        "21",
+        ""
+      ],
+      [
+        "",
+        "",
+        "21",
+        "21"
+      ]
+    ],
+    "explanation": "For each pair of i and j, add i + j to total. The final total is 21."
+  },
+  {
+    "title": "REPEAT UNTIL loop",
+    "difficulty": "Loops",
+    "topic": "REPEAT UNTIL",
+    "instructions": "Remember: REPEAT UNTIL always runs at least once.",
+    "code": "x = 1\nREPEAT\n    x = x * 2\nUNTIL x > 10\nOUTPUT x",
+    "columns": [
+      "x",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "1",
+        ""
+      ],
+      [
+        "2",
+        ""
+      ],
+      [
+        "4",
+        ""
+      ],
+      [
+        "8",
+        ""
+      ],
+      [
+        "16",
+        ""
+      ],
+      [
+        "16",
+        "16"
+      ]
+    ],
+    "explanation": "The loop repeats until x is greater than 10. It stops when x becomes 16."
+  },
+  {
+    "title": "Average calculation",
+    "difficulty": "Arrays",
+    "topic": "Array total",
+    "instructions": "Trace total as each mark is added.",
+    "code": "marks = [6, 8, 10, 12]\ntotal = 0\nFOR i = 0 TO 3\n    total = total + marks[i]\nEND FOR\naverage = total / 4\nOUTPUT average",
+    "columns": [
+      "i",
+      "marks[i]",
+      "total",
+      "average",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        "0",
+        "",
+        ""
+      ],
+      [
+        "0",
+        "6",
+        "6",
+        "",
+        ""
+      ],
+      [
+        "1",
+        "8",
+        "14",
+        "",
+        ""
+      ],
+      [
+        "2",
+        "10",
+        "24",
+        "",
+        ""
+      ],
+      [
+        "3",
+        "12",
+        "36",
+        "",
+        ""
+      ],
+      [
+        "",
+        "",
+        "36",
+        "9",
+        ""
+      ],
+      [
+        "",
+        "",
+        "36",
+        "9",
+        "9"
+      ]
+    ],
+    "explanation": "The total is 36. The average is 36 / 4 = 9."
+  },
+  {
+    "title": "String concatenation",
+    "difficulty": "Selection",
+    "topic": "String trace",
+    "instructions": "Trace the value of word after each loop cycle.",
+    "code": "word = \"\"\nFOR i = 1 TO 3\n    word = word + \"A\"\nEND FOR\nOUTPUT word",
+    "columns": [
+      "i",
+      "word",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "",
+        ""
+      ],
+      [
+        "1",
+        "A",
+        ""
+      ],
+      [
+        "2",
+        "AA",
+        ""
+      ],
+      [
+        "3",
+        "AAA",
+        ""
+      ],
+      [
+        "",
+        "AAA",
+        "AAA"
+      ]
+    ],
+    "explanation": "Each loop adds one A to the end of the string."
+  },
+  {
+    "title": "Password attempts",
+    "difficulty": "Selection",
+    "topic": "WHILE and IF",
+    "instructions": "Trace attempts and locked after each loop.",
+    "code": "attempts = 0\nlocked = FALSE\nWHILE attempts < 3 AND locked = FALSE\n    attempts = attempts + 1\n    IF attempts = 3 THEN\n        locked = TRUE\n    END IF\nEND WHILE\nOUTPUT locked",
+    "columns": [
+      "attempts",
+      "locked",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "0",
+        "FALSE",
+        ""
+      ],
+      [
+        "1",
+        "FALSE",
+        ""
+      ],
+      [
+        "2",
+        "FALSE",
+        ""
+      ],
+      [
+        "3",
+        "TRUE",
+        ""
+      ],
+      [
+        "3",
+        "TRUE",
+        "TRUE"
+      ]
+    ],
+    "explanation": "When attempts reaches 3, locked becomes TRUE, so the WHILE condition becomes false."
+  },
+  {
+    "title": "DIV and MOD",
+    "difficulty": "Hard",
+    "topic": "Operators",
+    "instructions": "Trace quotient and remainder.",
+    "code": "number = 17\nquotient = number DIV 5\nremainder = number MOD 5\nOUTPUT quotient\nOUTPUT remainder",
+    "columns": [
+      "number",
+      "quotient",
+      "remainder",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "17",
+        "",
+        "",
+        ""
+      ],
+      [
+        "17",
+        "3",
+        "",
+        ""
+      ],
+      [
+        "17",
+        "3",
+        "2",
+        ""
+      ],
+      [
+        "17",
+        "3",
+        "2",
+        "3"
+      ],
+      [
+        "17",
+        "3",
+        "2",
+        "2"
+      ]
+    ],
+    "explanation": "17 DIV 5 is 3 because 5 goes into 17 three whole times. 17 MOD 5 is 2 because the remainder is 2."
+  },
+  {
+    "title": "Boolean flag",
+    "difficulty": "Selection",
+    "topic": "Boolean",
+    "instructions": "Trace pass after the IF statement.",
+    "code": "mark = 48\npass = FALSE\nIF mark >= 50 THEN\n    pass = TRUE\nELSE\n    pass = FALSE\nEND IF\nOUTPUT pass",
+    "columns": [
+      "mark",
+      "pass",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "48",
+        "FALSE",
+        ""
+      ],
+      [
+        "48",
+        "FALSE",
+        ""
+      ],
+      [
+        "48",
+        "FALSE",
+        "FALSE"
+      ]
+    ],
+    "explanation": "48 is less than 50, so the ELSE branch runs and pass remains FALSE."
+  },
+  {
+    "title": "Running product",
+    "difficulty": "Loops",
+    "topic": "FOR loop",
+    "instructions": "Trace product after each loop cycle.",
+    "code": "product = 1\nFOR i = 1 TO 4\n    product = product * i\nEND FOR\nOUTPUT product",
+    "columns": [
+      "i",
+      "product",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "1",
+        ""
+      ],
+      [
+        "1",
+        "1",
+        ""
+      ],
+      [
+        "2",
+        "2",
+        ""
+      ],
+      [
+        "3",
+        "6",
+        ""
+      ],
+      [
+        "4",
+        "24",
+        ""
+      ],
+      [
+        "",
+        "24",
+        "24"
+      ]
+    ],
+    "explanation": "The algorithm calculates 1 × 2 × 3 × 4 = 24."
+  },
+  {
+    "title": "Swap values",
+    "difficulty": "Basic",
+    "topic": "Variables",
+    "instructions": "Trace the variables after each assignment.",
+    "code": "a = 5\nb = 9\ntemp = a\na = b\nb = temp\nOUTPUT a\nOUTPUT b",
+    "columns": [
+      "a",
+      "b",
+      "temp",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "5",
+        "",
+        "",
+        ""
+      ],
+      [
+        "5",
+        "9",
+        "",
+        ""
+      ],
+      [
+        "5",
+        "9",
+        "5",
+        ""
+      ],
+      [
+        "9",
+        "9",
+        "5",
+        ""
+      ],
+      [
+        "9",
+        "5",
+        "5",
+        ""
+      ],
+      [
+        "9",
+        "5",
+        "5",
+        "9"
+      ],
+      [
+        "9",
+        "5",
+        "5",
+        "5"
+      ]
+    ],
+    "explanation": "temp stores the original value of a, allowing a and b to be swapped."
+  },
+  {
+    "title": "Bubble sort one pass",
+    "difficulty": "Hard",
+    "topic": "Sorting",
+    "instructions": "Trace the array after each comparison and possible swap.",
+    "code": "list = [5, 2, 4, 1]\nFOR i = 0 TO 2\n    IF list[i] > list[i + 1] THEN\n        temp = list[i]\n        list[i] = list[i + 1]\n        list[i + 1] = temp\n    END IF\nEND FOR\nOUTPUT list",
+    "columns": [
+      "i",
+      "list",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "[5,2,4,1]",
+        ""
+      ],
+      [
+        "0",
+        "[2,5,4,1]",
+        ""
+      ],
+      [
+        "1",
+        "[2,4,5,1]",
+        ""
+      ],
+      [
+        "2",
+        "[2,4,1,5]",
+        ""
+      ],
+      [
+        "",
+        "[2,4,1,5]",
+        "[2,4,1,5]"
+      ]
+    ],
+    "explanation": "This is one pass of bubble sort. The largest value, 5, moves to the end."
+  },
+  {
+    "title": "Binary search",
+    "difficulty": "Hard",
+    "topic": "Searching",
+    "instructions": "Trace low, high and mid after each loop cycle.",
+    "code": "numbers = [2, 4, 6, 8, 10, 12, 14]\ntarget = 10\nlow = 0\nhigh = 6\nfound = FALSE\nWHILE low <= high AND found = FALSE\n    mid = (low + high) DIV 2\n    IF numbers[mid] = target THEN\n        found = TRUE\n    ELSE IF numbers[mid] < target THEN\n        low = mid + 1\n    ELSE\n        high = mid - 1\n    END IF\nEND WHILE\nOUTPUT found",
+    "columns": [
+      "low",
+      "high",
+      "mid",
+      "numbers[mid]",
+      "found",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "0",
+        "6",
+        "",
+        "",
+        "FALSE",
+        ""
+      ],
+      [
+        "4",
+        "6",
+        "3",
+        "8",
+        "FALSE",
+        ""
+      ],
+      [
+        "4",
+        "6",
+        "5",
+        "12",
+        "FALSE",
+        ""
+      ],
+      [
+        "4",
+        "4",
+        "4",
+        "10",
+        "TRUE",
+        ""
+      ],
+      [
+        "4",
+        "4",
+        "4",
+        "10",
+        "TRUE",
+        "TRUE"
+      ]
+    ],
+    "explanation": "The middle value is checked. The search area is halved until target 10 is found at index 4."
+  },
+  {
+    "title": "Output even numbers",
+    "difficulty": "Loops",
+    "topic": "MOD",
+    "instructions": "Record the output whenever an even number is found.",
+    "code": "FOR i = 1 TO 6\n    IF i MOD 2 = 0 THEN\n        OUTPUT i\n    END IF\nEND FOR",
+    "columns": [
+      "i",
+      "i MOD 2",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "1",
+        "1",
+        ""
+      ],
+      [
+        "2",
+        "0",
+        "2"
+      ],
+      [
+        "3",
+        "1",
+        ""
+      ],
+      [
+        "4",
+        "0",
+        "4"
+      ],
+      [
+        "5",
+        "1",
+        ""
+      ],
+      [
+        "6",
+        "0",
+        "6"
+      ]
+    ],
+    "explanation": "Even numbers have remainder 0 when divided by 2, so 2, 4 and 6 are output."
+  },
+  {
+    "title": "Find first negative",
+    "difficulty": "Arrays",
+    "topic": "Linear search",
+    "instructions": "Trace found and position. The loop stops early when found becomes TRUE.",
+    "code": "values = [5, 3, -2, 7]\ni = 0\nfound = FALSE\nposition = -1\nWHILE i < 4 AND found = FALSE\n    IF values[i] < 0 THEN\n        found = TRUE\n        position = i\n    ELSE\n        i = i + 1\n    END IF\nEND WHILE\nOUTPUT position",
+    "columns": [
+      "i",
+      "values[i]",
+      "found",
+      "position",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "0",
+        "5",
+        "FALSE",
+        "-1",
+        ""
+      ],
+      [
+        "1",
+        "3",
+        "FALSE",
+        "-1",
+        ""
+      ],
+      [
+        "2",
+        "-2",
+        "TRUE",
+        "2",
+        ""
+      ],
+      [
+        "2",
+        "-2",
+        "TRUE",
+        "2",
+        "2"
+      ]
+    ],
+    "explanation": "The first negative number is -2 at index 2. The search stops when found becomes TRUE."
+  },
+  {
+    "title": "Nested IF",
+    "difficulty": "Selection",
+    "topic": "Nested selection",
+    "instructions": "Trace grade and output.",
+    "code": "mark = 72\ngrade = \"\"\nIF mark >= 80 THEN\n    grade = \"A\"\nELSE\n    IF mark >= 60 THEN\n        grade = \"B\"\n    ELSE\n        grade = \"C\"\n    END IF\nEND IF\nOUTPUT grade",
+    "columns": [
+      "mark",
+      "grade",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "72",
+        "",
+        ""
+      ],
+      [
+        "72",
+        "B",
+        ""
+      ],
+      [
+        "72",
+        "B",
+        "B"
+      ]
+    ],
+    "explanation": "72 is not at least 80, but it is at least 60, so the grade is B."
+  },
+  {
+    "title": "Accumulate until limit",
+    "difficulty": "Hard",
+    "topic": "WHILE loop",
+    "instructions": "Trace total and n until total reaches at least 15.",
+    "code": "n = 1\ntotal = 0\nWHILE total < 15\n    total = total + n\n    n = n + 2\nEND WHILE\nOUTPUT total",
+    "columns": [
+      "n",
+      "total",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "1",
+        "0",
+        ""
+      ],
+      [
+        "3",
+        "1",
+        ""
+      ],
+      [
+        "5",
+        "4",
+        ""
+      ],
+      [
+        "7",
+        "9",
+        ""
+      ],
+      [
+        "9",
+        "16",
+        ""
+      ],
+      [
+        "9",
+        "16",
+        "16"
+      ]
+    ],
+    "explanation": "Odd numbers are added until the total is no longer less than 15. The final total is 16."
+  },
+  {
+    "title": "Array update",
+    "difficulty": "Arrays",
+    "topic": "Array modification",
+    "instructions": "Trace the array after each update.",
+    "code": "scores = [1, 2, 3]\nFOR i = 0 TO 2\n    scores[i] = scores[i] * 2\nEND FOR\nOUTPUT scores",
+    "columns": [
+      "i",
+      "scores",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "",
+        "[1,2,3]",
+        ""
+      ],
+      [
+        "0",
+        "[2,2,3]",
+        ""
+      ],
+      [
+        "1",
+        "[2,4,3]",
+        ""
+      ],
+      [
+        "2",
+        "[2,4,6]",
+        ""
+      ],
+      [
+        "",
+        "[2,4,6]",
+        "[2,4,6]"
+      ]
+    ],
+    "explanation": "Each array element is doubled."
+  },
+  {
+    "title": "Two outputs in a loop",
+    "difficulty": "Loops",
+    "topic": "Output tracing",
+    "instructions": "Record every output in order.",
+    "code": "FOR i = 1 TO 3\n    OUTPUT i\n    OUTPUT i * i\nEND FOR",
+    "columns": [
+      "i",
+      "i * i",
+      "OUTPUT"
+    ],
+    "rows": [
+      [
+        "1",
+        "1",
+        "1"
+      ],
+      [
+        "1",
+        "1",
+        "1"
+      ],
+      [
+        "2",
+        "4",
+        "2"
+      ],
+      [
+        "2",
+        "4",
+        "4"
+      ],
+      [
+        "3",
+        "9",
+        "3"
+      ],
+      [
+        "3",
+        "9",
+        "9"
+      ]
+    ],
+    "explanation": "For each i, the algorithm outputs i first, then i squared."
+  }
+];
+let currentIndex = 0;
+let pool = [];
+let totalCells = 0;
+let correctCells = 0;
+let answeredQuestions = new Set();
+
+function normalise(value) {
+  return String(value)
+    .trim()
+    .replace(/\s+/g, "")
+    .replace(/TRUE/i, "TRUE")
+    .replace(/FALSE/i, "FALSE");
+}
+
+function populateFilters() {
+  const difficulties = [...new Set(questions.map(q => q.difficulty))].sort();
+  const topics = [...new Set(questions.map(q => q.topic))].sort();
+  const difficultySelect = document.getElementById("difficultyFilter");
+  const topicSelect = document.getElementById("topicFilter");
+
+  difficulties.forEach(d => {
+    const opt = document.createElement("option");
+    opt.value = d;
+    opt.textContent = d;
+    difficultySelect.appendChild(opt);
+  });
+
+  topics.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  });
+}
+
+function getFilteredIndexes() {
+  const diff = document.getElementById("difficultyFilter").value;
+  const topic = document.getElementById("topicFilter").value;
+  return questions.map((q, i) => { return { q, i }; })
+    .filter(item => (diff === "All" || item.q.difficulty === diff) && (topic === "All" || item.q.topic === topic))
+    .map(item => item.i);
+}
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function resetQuestionPool() {
+  pool = getFilteredIndexes();
+  shuffle(pool);
+  if (pool.length === 0) {
+    document.getElementById("feedback").innerHTML = "No questions match this filter.";
+    return;
+  }
+  currentIndex = pool[0];
+  renderQuestion();
+}
+
+function newQuestion() {
+  if (pool.length <= 1) {
+    resetQuestionPool();
+    return;
+  }
+
+  const old = currentIndex;
+  let next;
+  do {
+    next = pool[Math.floor(Math.random() * pool.length)];
+  } while (next === old && pool.length > 1);
+
+  currentIndex = next;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentIndex];
+  document.getElementById("topicBadge").textContent = q.topic;
+  document.getElementById("difficultyBadge").textContent = q.difficulty;
+  document.getElementById("rowsBadge").textContent = q.rows.length + " rows";
+  document.getElementById("questionTitle").textContent = q.title;
+  document.getElementById("instructions").textContent = q.instructions;
+  document.getElementById("codeBox").textContent = q.code;
+  document.getElementById("difficultyText").textContent = q.difficulty;
+
+  const position = questions.indexOf(q) + 1;
+  document.getElementById("questionCounter").textContent = position + " / " + questions.length;
+
+  const table = document.getElementById("traceTable");
+  table.innerHTML = "";
+
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  const stepHead = document.createElement("th");
+  stepHead.textContent = "Step";
+  headRow.appendChild(stepHead);
+
+  q.columns.forEach(col => {
+    const th = document.createElement("th");
+    th.textContent = col;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  q.rows.forEach((row, r) => {
+    const tr = document.createElement("tr");
+    const step = document.createElement("td");
+    step.textContent = r + 1;
+    tr.appendChild(step);
+
+    q.columns.forEach((col, c) => {
+      const td = document.createElement("td");
+      const input = document.createElement("input");
+      input.className = "cell-input";
+      input.dataset.row = r;
+      input.dataset.col = c;
+      input.placeholder = "fill";
+      td.appendChild(input);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+
+  document.getElementById("feedback").innerHTML = "Fill in the trace table, then click <strong>Check Answers</strong>.";
+}
+
+function checkAnswers() {
+  const q = questions[currentIndex];
+  let correct = 0;
+  let total = 0;
+  let rowFeedback = [];
+
+  document.querySelectorAll(".cell-input").forEach(input => {
+    const r = Number(input.dataset.row);
+    const c = Number(input.dataset.col);
+    const expected = q.rows[r][c];
+    const actual = input.value;
+
+    total++;
+    if (normalise(actual) === normalise(expected)) {
+      correct++;
+      input.classList.remove("wrong");
+      input.classList.add("correct");
+    } else {
+      input.classList.remove("correct");
+      input.classList.add("wrong");
+    }
+  });
+
+  totalCells += total;
+  correctCells += correct;
+  answeredQuestions.add(currentIndex);
+  updateScore();
+
+  const percent = Math.round((correct / total) * 100);
+  let msg = `<strong>Result:</strong> ${correct} / ${total} cells correct (${percent}%).<br><br>`;
+
+  if (percent === 100) {
+    msg += "Excellent. Your trace table is fully correct.";
+  } else if (percent >= 70) {
+    msg += "Good attempt. Check the red cells carefully. Most mistakes in trace tables come from updating a variable too early or too late.";
+  } else {
+    msg += "Keep practising. Go line by line through the pseudocode and only change a variable when an assignment happens.";
+  }
+
+  msg += `<br><br><strong>Explanation:</strong> ${q.explanation}`;
+  document.getElementById("feedback").innerHTML = msg;
+}
+
+function showAnswers() {
+  const q = questions[currentIndex];
+  document.querySelectorAll(".cell-input").forEach(input => {
+    const r = Number(input.dataset.row);
+    const c = Number(input.dataset.col);
+    input.value = q.rows[r][c];
+    input.classList.remove("wrong");
+    input.classList.add("correct");
+  });
+  document.getElementById("feedback").innerHTML = `<strong>Answers revealed.</strong><br><br>${q.explanation}`;
+}
+
+function clearTable() {
+  document.querySelectorAll(".cell-input").forEach(input => {
+    input.value = "";
+    input.classList.remove("correct", "wrong");
+  });
+  document.getElementById("feedback").innerHTML = "Table cleared. Try again.";
+}
+
+function updateScore() {
+  document.getElementById("scoreText").textContent = correctCells + " / " + totalCells;
+  const pct = totalCells === 0 ? 0 : (correctCells / totalCells) * 100;
+  document.getElementById("progressFill").style.width = pct + "%";
+}
+
+function resetProgress() {
+  totalCells = 0;
+  correctCells = 0;
+  answeredQuestions.clear();
+  updateScore();
+  clearTable();
+}
+
+populateFilters();
+resetQuestionPool();
+updateScore();
+</script>
+</body>
+</html>

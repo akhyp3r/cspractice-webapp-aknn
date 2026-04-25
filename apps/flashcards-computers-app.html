@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGCSE Edexcel Computer Science - Computers Unit Flashcards</title>
+  <style>
+    :root {
+      --bg: #111827;
+      --text: #fff7ed;
+      --muted: #fed7aa;
+      --orange: #f97316;
+      --orange2: #fb923c;
+      --yellow: #facc15;
+      --card: #1f2937;
+      --card2: #374151;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.28), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(250, 204, 21, 0.18), transparent 30%),
+        var(--bg);
+      padding: 24px;
+    }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto 22px auto;
+      padding: 24px;
+      text-align: center;
+      border-radius: 28px;
+      background: rgba(31, 41, 55, 0.82);
+      border: 1px solid rgba(255, 247, 237, 0.12);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.30);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 850px;
+      margin: 12px auto 0 auto;
+      line-height: 1.55;
+    }
+
+    .chapter-list {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(249, 115, 22, 0.20);
+      color: #ffedd5;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+
+    .topbar {
+      max-width: 1180px;
+      margin: 0 auto 20px auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .controls, .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(31, 41, 55, 0.68);
+      border: 1px solid rgba(255, 247, 237, 0.09);
+    }
+
+    button, select, input {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    button {
+      background: rgba(255, 247, 237, 0.12);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 247, 237, 0.22);
+    }
+
+    select, input {
+      background: rgba(255, 247, 237, 0.98);
+      color: #111827;
+      min-width: 250px;
+    }
+
+    .progress-wrap {
+      max-width: 760px;
+      margin: 0 auto 24px auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 13px;
+      background: rgba(255, 247, 237, 0.13);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+      transition: width 0.25s ease;
+    }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 18px;
+    }
+
+    .flashcard {
+      perspective: 1100px;
+      min-height: 270px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 270px;
+      transition: transform 0.62s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 26px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(255, 247, 237, 0.13);
+    }
+
+    .front {
+      background: linear-gradient(145deg, rgba(31, 41, 55, 0.98), rgba(55, 65, 81, 0.98));
+    }
+
+    .back {
+      background: linear-gradient(145deg, rgba(124, 45, 18, 0.97), rgba(120, 53, 15, 0.97));
+      transform: rotateY(180deg);
+    }
+
+    .tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(249, 115, 22, 0.22);
+      color: #ffedd5;
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    .number {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .question, .answer {
+      font-size: 1.03rem;
+      line-height: 1.5;
+      margin: 8px 0 18px 0;
+    }
+
+    .answer-label {
+      color: #fef08a;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 34px auto 0 auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      header, .topbar, .progress-wrap, footer {
+        box-shadow: none;
+        background: white;
+        color: black;
+      }
+      .controls, .filters {
+        display: none;
+      }
+      .grid {
+        display: block;
+      }
+      .flashcard {
+        page-break-inside: avoid;
+        margin-bottom: 18px;
+      }
+      .flashcard-inner, .flashcard.flipped .flashcard-inner {
+        transform: none;
+      }
+      .face {
+        position: relative;
+        color: black;
+        background: white !important;
+        border: 1px solid #999;
+        box-shadow: none;
+        margin-bottom: 8px;
+      }
+      .back {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>IGCSE Edexcel Computer Science — COMPUTERS Flashcards</h1>
+    <p class="subtitle">
+      50 Pearson-style flashcards for the COMPUTERS unit. Click each card to reveal a student-style answer.
+      These cover machines and computational models, hardware, logic, software and programming languages.
+    </p>
+    <div class="chapter-list">
+      <span class="pill">16. Machines and Computational Models</span>
+      <span class="pill">17. Hardware</span>
+      <span class="pill">18. Logic</span>
+      <span class="pill">19. Software</span>
+      <span class="pill">20. Programming Languages</span>
+    </div>
+  </header>
+
+  <section class="topbar">
+    <div class="controls">
+      <button onclick="shuffleCards()">Shuffle</button>
+      <button onclick="flipAll(true)">Show All Answers</button>
+      <button onclick="flipAll(false)">Show All Questions</button>
+      <button onclick="resetProgress()">Reset Progress</button>
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="filters">
+      <select id="chapterFilter" onchange="applyFilters()">
+        <option value="All">All Chapters</option>
+      </select>
+      <input id="searchInput" type="search" placeholder="Search cards..." oninput="applyFilters()" />
+    </div>
+  </section>
+
+  <section class="progress-wrap">
+    <div id="progressText">0 / 50 cards viewed</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </section>
+
+  <main class="grid" id="cardGrid"></main>
+
+  <footer>
+    Exam tip: For “explain” questions, do not only define the word. Add the effect or reason, like “so that...” or “because...”.
+  </footer>
+
+  <script>
+    const originalCards = [
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What is a computer system?",
+            "a": "A computer system is made up of hardware and software that work together to input, process, store and output data."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What is the input-process-output model?",
+            "a": "It is a model where data is entered as input, processed by the system, and then produced as output."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "Give one example of input, process and output for a calculator.",
+            "a": "Input: the numbers and operation entered. Process: the calculator performs the calculation. Output: the answer shown on the screen."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What is an algorithm?",
+            "a": "An algorithm is a finite set of step-by-step instructions used to solve a problem."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What does it mean if an algorithm is finite?",
+            "a": "It means the algorithm must eventually end after a limited number of steps."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "Why are computational models useful?",
+            "a": "Computational models help represent problems or systems in a simplified way so they can be understood, tested or solved using a computer."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What is a state in a computational model?",
+            "a": "A state represents the current condition or situation of a system at a particular time."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "What is a transition in a state machine?",
+            "a": "A transition is a change from one state to another, usually caused by an input or event."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "Give an example of a system that can be modelled using states.",
+            "a": "A traffic light system can be modelled using states such as red, amber and green."
+      },
+      {
+            "chapter": "16. Machines and Computational Models",
+            "q": "Why is abstraction used when modelling a system?",
+            "a": "Abstraction removes unnecessary details and focuses only on the important parts of the system."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is hardware?",
+            "a": "Hardware is the physical parts of a computer system that can be touched, such as the CPU, RAM, keyboard and monitor."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the CPU?",
+            "a": "The CPU processes instructions and controls the operation of the computer system."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What are the main stages of the fetch-decode-execute cycle?",
+            "a": "Fetch: get the instruction from memory. Decode: understand the instruction. Execute: carry out the instruction."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the Program Counter?",
+            "a": "The Program Counter stores the address of the next instruction to be fetched."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the Memory Address Register?",
+            "a": "The Memory Address Register stores the memory address that the CPU wants to access."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the Memory Data Register?",
+            "a": "The Memory Data Register stores data or instructions being transferred to or from memory."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the Control Unit?",
+            "a": "The Control Unit controls the CPU and sends signals to coordinate the fetch-decode-execute cycle."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is the purpose of the ALU?",
+            "a": "The ALU performs arithmetic operations and logical comparisons."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is RAM?",
+            "a": "RAM is volatile memory that stores programs and data currently in use. Its contents are lost when the computer is turned off."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is ROM?",
+            "a": "ROM is non-volatile memory that stores permanent instructions, such as instructions needed to start the computer."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is cache memory?",
+            "a": "Cache memory is very fast memory close to or inside the CPU that stores frequently used data and instructions."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "Explain how cache memory can improve performance.",
+            "a": "Cache stores frequently used data and instructions, so the CPU can access them faster than getting them from RAM."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "Give two factors that affect CPU performance.",
+            "a": "Clock speed, number of cores, and cache size can affect CPU performance."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is an embedded system?",
+            "a": "An embedded system is a computer system built into another device to perform a specific task."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "Give two examples of embedded systems.",
+            "a": "Examples include a washing machine, microwave, traffic light system, car engine control system or digital camera."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "What is secondary storage?",
+            "a": "Secondary storage is non-volatile storage used to store data and programs permanently."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "Explain the difference between primary storage and secondary storage.",
+            "a": "Primary storage is directly accessed by the CPU and is used for data currently in use. Secondary storage keeps data permanently when power is off."
+      },
+      {
+            "chapter": "17. Hardware",
+            "q": "Give one advantage of solid-state storage compared with magnetic storage.",
+            "a": "Solid-state storage has no moving parts, so it is usually faster, more durable and quieter."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is a logic gate?",
+            "a": "A logic gate is an electronic circuit that takes one or more binary inputs and produces a binary output."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is the output of an AND gate when both inputs are 1?",
+            "a": "The output is 1, because an AND gate only outputs 1 when all inputs are 1."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is the output of an AND gate when A = 1 and B = 0?",
+            "a": "The output is 0, because both inputs must be 1 for an AND gate to output 1."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is the output of an OR gate when A = 0 and B = 1?",
+            "a": "The output is 1, because an OR gate outputs 1 if at least one input is 1."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is the output of a NOT gate when the input is 0?",
+            "a": "The output is 1, because a NOT gate reverses the input."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "What is the output of a NOT gate when the input is 1?",
+            "a": "The output is 0, because a NOT gate inverts the input."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "Describe the logic expression A AND NOT B in words.",
+            "a": "The output is 1 only when A is 1 and B is 0."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "Describe the logic expression A OR B in words.",
+            "a": "The output is 1 when A is 1, or B is 1, or both are 1."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "For A = 1 and B = 1, what is the output of NOT (A AND B)?",
+            "a": "The output is 0. A AND B gives 1, then NOT changes it to 0."
+      },
+      {
+            "chapter": "18. Logic",
+            "q": "For A = 0 and B = 1, what is the output of A OR NOT B?",
+            "a": "The output is 0. NOT B is 0, so A OR NOT B becomes 0 OR 0, which is 0."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is software?",
+            "a": "Software is a set of programs or instructions that tell the computer hardware what to do."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is system software?",
+            "a": "System software manages and controls the computer hardware and provides a platform for application software."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is application software?",
+            "a": "Application software allows the user to perform specific tasks, such as word processing, browsing the web or editing images."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "Give two examples of system software.",
+            "a": "Examples include operating systems, utility software, device drivers and translators."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "Give two examples of application software.",
+            "a": "Examples include word processors, spreadsheets, web browsers, games and image editing software."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is the purpose of an operating system?",
+            "a": "An operating system manages hardware and software resources and provides a user interface."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "Give three functions of an operating system.",
+            "a": "It manages files, memory, processes, peripherals, security, user accounts and the user interface."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is utility software?",
+            "a": "Utility software helps maintain, manage or protect a computer system."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "Give two examples of utility software.",
+            "a": "Examples include antivirus software, backup software, disk cleanup tools, compression tools and defragmentation tools."
+      },
+      {
+            "chapter": "19. Software",
+            "q": "What is the purpose of a device driver?",
+            "a": "A device driver allows the operating system to communicate with and control a specific hardware device."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "What is a programming language?",
+            "a": "A programming language is used to write instructions that a computer can follow to perform tasks."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "What is a high-level programming language?",
+            "a": "A high-level language is closer to human language and is easier for programmers to read and write."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "What is a low-level programming language?",
+            "a": "A low-level language is closer to machine code and gives more direct control over hardware."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "Give one advantage of high-level languages.",
+            "a": "They are easier for humans to understand, write, debug and maintain."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "Give one advantage of low-level languages.",
+            "a": "They can be more efficient and allow direct control of hardware."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "What is machine code?",
+            "a": "Machine code is binary instructions that can be directly executed by the CPU."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "What is assembly language?",
+            "a": "Assembly language is a low-level language that uses mnemonics to represent machine code instructions."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "Why does high-level code need to be translated?",
+            "a": "The CPU can only execute machine code, so high-level code must be translated into machine code before it can run."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "Explain the difference between a compiler and an interpreter.",
+            "a": "A compiler translates the whole program into machine code at once. An interpreter translates and runs the program one line at a time."
+      },
+      {
+            "chapter": "20. Programming Languages",
+            "q": "Give one advantage of using an interpreter during development.",
+            "a": "An interpreter is useful for testing and debugging because it can stop at the line where an error occurs."
+      }
+];
+    let currentCards = [...originalCards];
+    const viewed = new Set();
+
+    function populateChapters() {
+      const chapters = [...new Set(originalCards.map(card => card.chapter))];
+      const select = document.getElementById("chapterFilter");
+      chapters.forEach(chapter => {
+        const option = document.createElement("option");
+        option.value = chapter;
+        option.textContent = chapter;
+        select.appendChild(option);
+      });
+    }
+
+    function createCard(card) {
+      const originalIndex = originalCards.indexOf(card);
+      const div = document.createElement("article");
+      div.className = "flashcard";
+      div.tabIndex = 0;
+      div.innerHTML = `
+        <div class="flashcard-inner">
+          <section class="face front">
+            <div>
+              <div class="tag-row">
+                <span class="tag">${card.chapter}</span>
+                <span class="number">Q${originalIndex + 1}</span>
+              </div>
+              <div class="question">${card.q}</div>
+            </div>
+            <div class="small">Click to reveal answer</div>
+          </section>
+          <section class="face back">
+            <div>
+              <div class="tag-row">
+                <span class="tag">Answer</span>
+                <span class="number">A${originalIndex + 1}</span>
+              </div>
+              <div class="answer">
+                <div class="answer-label">Pearson-style student answer</div>
+                ${card.a}
+              </div>
+            </div>
+            <div class="small">Click again to return to question</div>
+          </section>
+        </div>
+      `;
+
+      div.addEventListener("click", () => {
+        div.classList.toggle("flipped");
+        viewed.add(originalIndex);
+        updateProgress();
+      });
+
+      div.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          div.click();
+        }
+      });
+
+      return div;
+    }
+
+    function renderCards(cardList = currentCards) {
+      const grid = document.getElementById("cardGrid");
+      grid.innerHTML = "";
+      if (cardList.length === 0) {
+        grid.innerHTML = "<p style='color:#fed7aa; text-align:center; grid-column:1/-1;'>No cards match your filter.</p>";
+        return;
+      }
+      cardList.forEach(card => grid.appendChild(createCard(card)));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = originalCards.length;
+      const count = viewed.size;
+      document.getElementById("progressText").textContent = `${count} / ${total} cards viewed`;
+      document.getElementById("progressFill").style.width = `${(count / total) * 100}%`;
+    }
+
+    function shuffleCards() {
+      currentCards = [...currentCards].sort(() => Math.random() - 0.5);
+      renderCards(currentCards);
+    }
+
+    function flipAll(showAnswers) {
+      document.querySelectorAll(".flashcard").forEach(card => {
+        card.classList.toggle("flipped", showAnswers);
+      });
+      if (showAnswers) {
+        currentCards.forEach(card => viewed.add(originalCards.indexOf(card)));
+      }
+      updateProgress();
+    }
+
+    function resetProgress() {
+      viewed.clear();
+      document.querySelectorAll(".flashcard").forEach(card => card.classList.remove("flipped"));
+      updateProgress();
+    }
+
+    function applyFilters() {
+      const chapter = document.getElementById("chapterFilter").value;
+      const search = document.getElementById("searchInput").value.toLowerCase().trim();
+      currentCards = originalCards.filter(card => {
+        const matchesChapter = chapter === "All" || card.chapter === chapter;
+        const matchesSearch = !search || card.q.toLowerCase().includes(search) || card.a.toLowerCase().includes(search);
+        return matchesChapter && matchesSearch;
+      });
+      renderCards(currentCards);
+    }
+
+    populateChapters();
+    renderCards();
+  </script>
+</body>
+</html>
