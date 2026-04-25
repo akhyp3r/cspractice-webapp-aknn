@@ -1,0 +1,3881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGCSE Edexcel Computer Science Paper 1 Practice Chatbot - 200 Questions</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --panel: #0f172a;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --red: #ef4444;
+      --purple: #a78bfa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, rgba(56,189,248,.18), transparent 32%),
+                  radial-gradient(circle at bottom right, rgba(167,139,250,.18), transparent 32%), var(--bg);
+      color: var(--text); padding: 20px;
+    }
+    .app { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 330px 1fr; gap: 18px; }
+    header, .sidebar, .chat {
+      background: rgba(15,23,42,.86); border: 1px solid rgba(248,250,252,.12);
+      border-radius: 26px; box-shadow: 0 18px 45px rgba(0,0,0,.25);
+    }
+    header { grid-column: 1/-1; padding: 22px; text-align: center; }
+    h1 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.6rem); letter-spacing: -.04em; }
+    .subtitle { color: var(--muted); max-width: 850px; margin: 10px auto 0; line-height: 1.5; }
+    .sidebar { padding: 18px; height: fit-content; }
+    .chat { display: flex; flex-direction: column; overflow: hidden; min-height: 720px; }
+    .stat { background: rgba(248,250,252,.08); border-radius: 18px; padding: 13px; margin-bottom: 12px; }
+    .stat-label { color: var(--muted); font-size: .86rem; margin-bottom: 4px; }
+    .stat-value { font-size: 1.15rem; font-weight: 900; }
+    select, button, textarea { width: 100%; border: 0; border-radius: 16px; padding: 12px; font: inherit; font-size: .95rem; }
+    select { background: #f8fafc; color: #0f172a; font-weight: 800; margin-bottom: 10px; }
+    button { background: rgba(56,189,248,.18); color: var(--text); font-weight: 900; cursor: pointer; margin-top: 10px; }
+    button:hover { background: rgba(56,189,248,.28); }
+    .secondary { background: rgba(248,250,252,.1); }
+    .danger { background: rgba(239,68,68,.2); }
+    .messages { flex: 1; padding: 20px; overflow-y: auto; }
+    .bubble { max-width: 88%; padding: 14px 16px; border-radius: 18px; margin-bottom: 12px; line-height: 1.5; white-space: pre-wrap; }
+    .bot { background: rgba(56,189,248,.13); border: 1px solid rgba(56,189,248,.2); }
+    .user { background: rgba(167,139,250,.17); border: 1px solid rgba(167,139,250,.22); margin-left: auto; }
+    .feedback { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.22); }
+    .input-area { border-top: 1px solid rgba(248,250,252,.1); padding: 16px; background: rgba(17,24,39,.88); }
+    textarea { min-height: 125px; resize: vertical; background: #f8fafc; color: #0f172a; line-height: 1.45; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .small { color: var(--muted); font-size: .86rem; line-height: 1.45; margin-top: 12px; }
+    .mark { display: inline-block; padding: 4px 9px; border-radius: 999px; background: rgba(34,197,94,.18); color: #bbf7d0; font-weight: 900; }
+    .missing { color: #fecaca; font-weight: 800; }
+    .hit { color: #bbf7d0; font-weight: 800; }
+    @media (max-width: 850px) { .app { grid-template-columns: 1fr; } .chat { min-height: 640px; } .bubble { max-width: 94%; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>IGCSE Edexcel Computer Science Paper 1 Practice Chatbot</h1>
+      <p class="subtitle">200-question version. It avoids immediate repeats and marks by meaning-based Pearson-style marking points.</p>
+    </header>
+
+    <aside class="sidebar">
+      <div class="stat"><div class="stat-label">Current topic</div><div class="stat-value" id="topicStat">Mixed Paper 1</div></div>
+      <div class="stat"><div class="stat-label">Score</div><div class="stat-value" id="scoreStat">0 / 0</div></div>
+      <div class="stat"><div class="stat-label">Questions answered</div><div class="stat-value" id="answeredStat">0</div></div>
+      <div class="stat"><div class="stat-label">Questions left in cycle</div><div class="stat-value" id="leftStat">0</div></div>
+      <select id="topicSelect" onchange="changeTopic()"><option value="All">Mixed Paper 1 - All 200</option></select>
+      <button onclick="newQuestion()">New Question</button>
+      <button class="secondary" onclick="showModelAnswer()">Show Model Answer</button>
+      <button class="secondary" onclick="giveHint()">Hint</button>
+      <button class="danger" onclick="resetSession()">Reset Session</button>
+      <p class="small">This is a revision helper, not an official examiner. It checks key ideas and similar meanings, then gives a Pearson-style model answer.</p>
+    </aside>
+
+    <section class="chat">
+      <div class="messages" id="messages"></div>
+      <div class="input-area">
+        <textarea id="answerInput" placeholder="Type your answer here..."></textarea>
+        <div class="row">
+          <button onclick="submitAnswer()">Submit Answer</button>
+          <button class="secondary" onclick="clearAnswer()">Clear</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+  {
+    "topic": "12. Binary",
+    "question": "Explain why computers use binary.",
+    "marks": 2,
+    "model": "Computers use binary because digital circuits can easily represent two states, such as on and off or high and low voltage.",
+    "points": [
+      [
+        "two states",
+        "two values",
+        "0 and 1",
+        "zero and one"
+      ],
+      [
+        "on and off",
+        "high and low",
+        "voltage",
+        "digital circuits",
+        "electronic circuits"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Convert the binary number 10110110 into denary.",
+    "marks": 2,
+    "model": "10110110 is 182 because 128 + 32 + 16 + 4 + 2 = 182.",
+    "points": [
+      [
+        "182"
+      ],
+      [
+        "128",
+        "32",
+        "16",
+        "4",
+        "2"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Convert denary 213 into 8-bit binary.",
+    "marks": 2,
+    "model": "213 in 8-bit binary is 11010101 because 213 = 128 + 64 + 16 + 4 + 1.",
+    "points": [
+      [
+        "11010101"
+      ],
+      [
+        "128",
+        "64",
+        "16",
+        "4",
+        "1"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "What is the largest denary number that can be stored using 8 bits?",
+    "marks": 2,
+    "model": "The largest number is 255 because 8 bits can represent 2^8 values, from 0 to 255.",
+    "points": [
+      [
+        "255"
+      ],
+      [
+        "2^8",
+        "256 values",
+        "0 to 255"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Explain what overflow means in binary addition.",
+    "marks": 2,
+    "model": "Overflow occurs when the result of a calculation is too large to fit into the number of bits available.",
+    "points": [
+      [
+        "result too large",
+        "too big"
+      ],
+      [
+        "not enough bits",
+        "cannot fit",
+        "bits available"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Add 01011010 and 00101101.",
+    "marks": 2,
+    "model": "01011010 + 00101101 = 10000111.",
+    "points": [
+      [
+        "10000111"
+      ],
+      [
+        "90",
+        "45",
+        "135"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Explain the effect of shifting a binary number one place to the left.",
+    "marks": 2,
+    "model": "Shifting a binary number one place to the left multiplies it by 2, if no important bits are lost.",
+    "points": [
+      [
+        "left"
+      ],
+      [
+        "multiply by 2",
+        "times 2",
+        "x2"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Explain the effect of shifting a binary number two places to the right.",
+    "marks": 2,
+    "model": "Shifting a binary number two places to the right divides it by 4, ignoring any remainder.",
+    "points": [
+      [
+        "right"
+      ],
+      [
+        "divide by 4",
+        "divided by 4",
+        "quarter"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Convert hexadecimal A7 into denary.",
+    "marks": 2,
+    "model": "A7 in hexadecimal is 167 because A is 10, so 10 × 16 + 7 = 167.",
+    "points": [
+      [
+        "167"
+      ],
+      [
+        "10",
+        "16",
+        "7"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Explain why hexadecimal is often used instead of binary.",
+    "marks": 2,
+    "model": "Hexadecimal is shorter and easier for humans to read than long binary numbers, so it is easier to write and check.",
+    "points": [
+      [
+        "shorter",
+        "less digits"
+      ],
+      [
+        "easier to read",
+        "easier to understand",
+        "easier to check"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "What is a character set?",
+    "marks": 2,
+    "model": "A character set is a list of characters that a computer can represent, where each character has a unique binary code.",
+    "points": [
+      [
+        "list of characters",
+        "set of characters"
+      ],
+      [
+        "unique binary code",
+        "binary code",
+        "code for each character"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Explain one advantage of Unicode compared with ASCII.",
+    "marks": 2,
+    "model": "Unicode can represent many more characters than ASCII, including characters from different languages and symbols.",
+    "points": [
+      [
+        "more characters",
+        "larger character set"
+      ],
+      [
+        "different languages",
+        "symbols",
+        "emojis",
+        "international"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "A character set uses 8 bits per character. How many characters can it represent?",
+    "marks": 2,
+    "model": "It can represent 256 characters because 2^8 = 256.",
+    "points": [
+      [
+        "256"
+      ],
+      [
+        "2^8",
+        "8 bits"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "What is a pixel?",
+    "marks": 1,
+    "model": "A pixel is the smallest individual point of colour in a bitmap image.",
+    "points": [
+      [
+        "smallest point",
+        "smallest unit",
+        "picture element",
+        "point of colour"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Explain how increasing image resolution affects file size.",
+    "marks": 2,
+    "model": "Increasing resolution increases the number of pixels, so more data must be stored and the file size increases.",
+    "points": [
+      [
+        "more pixels",
+        "number of pixels increases"
+      ],
+      [
+        "file size increases",
+        "more storage",
+        "more data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Explain how increasing colour depth affects a bitmap image.",
+    "marks": 2,
+    "model": "Increasing colour depth allows more colours to be represented, but it increases file size because more bits are stored for each pixel.",
+    "points": [
+      [
+        "more colours",
+        "more shades"
+      ],
+      [
+        "file size increases",
+        "more bits per pixel",
+        "more storage"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Calculate the file size in bytes for a 200 × 150 image with colour depth 16 bits.",
+    "marks": 3,
+    "model": "Pixels = 200 × 150 = 30000. Bits = 30000 × 16 = 480000. Bytes = 480000 ÷ 8 = 60000 bytes.",
+    "points": [
+      [
+        "30000"
+      ],
+      [
+        "480000"
+      ],
+      [
+        "60000",
+        "60,000"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "What is sampling in sound representation?",
+    "marks": 2,
+    "model": "Sampling is when the amplitude of a sound wave is measured at regular time intervals.",
+    "points": [
+      [
+        "amplitude",
+        "sound wave"
+      ],
+      [
+        "regular intervals",
+        "measured"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Explain the effect of increasing sample rate.",
+    "marks": 2,
+    "model": "Increasing sample rate means the sound is sampled more often, which can improve sound quality but increases file size.",
+    "points": [
+      [
+        "sampled more often",
+        "more samples"
+      ],
+      [
+        "better quality",
+        "more accurate"
+      ],
+      [
+        "file size increases",
+        "more storage"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "A sound file has sample rate 1000 Hz, sample resolution 8 bits, and length 10 seconds. Calculate file size in bits.",
+    "marks": 3,
+    "model": "File size = 1000 × 8 × 10 = 80000 bits.",
+    "points": [
+      [
+        "1000"
+      ],
+      [
+        "8"
+      ],
+      [
+        "10"
+      ],
+      [
+        "80000",
+        "80,000"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "State the order of common storage units from smallest to largest.",
+    "marks": 2,
+    "model": "The order is bit, byte, kilobyte, megabyte, gigabyte, terabyte.",
+    "points": [
+      [
+        "bit",
+        "byte"
+      ],
+      [
+        "kilobyte",
+        "megabyte",
+        "gigabyte",
+        "terabyte"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "How many bits are there in 4 bytes?",
+    "marks": 2,
+    "model": "There are 32 bits in 4 bytes because 1 byte is 8 bits, so 4 × 8 = 32.",
+    "points": [
+      [
+        "32"
+      ],
+      [
+        "8 bits",
+        "4 x 8",
+        "4×8"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Why is data compression used?",
+    "marks": 2,
+    "model": "Data compression is used to reduce file size, so files use less storage space and can be transmitted faster.",
+    "points": [
+      [
+        "reduce file size",
+        "smaller file"
+      ],
+      [
+        "less storage",
+        "transmitted faster",
+        "download faster",
+        "upload faster"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Explain lossless compression.",
+    "marks": 2,
+    "model": "Lossless compression reduces file size without permanently removing data, so the original file can be restored exactly.",
+    "points": [
+      [
+        "no data lost",
+        "without losing data"
+      ],
+      [
+        "original restored",
+        "restored exactly",
+        "same as original"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Explain lossy compression.",
+    "marks": 2,
+    "model": "Lossy compression reduces file size by permanently removing some data, so the original file cannot be restored exactly.",
+    "points": [
+      [
+        "removes data",
+        "data lost",
+        "permanently"
+      ],
+      [
+        "cannot restore exactly",
+        "quality reduced",
+        "not same as original"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Why is lossless compression suitable for text files?",
+    "marks": 2,
+    "model": "Lossless compression is suitable because no characters or data are lost, so the exact original text can be restored.",
+    "points": [
+      [
+        "no characters lost",
+        "no data lost"
+      ],
+      [
+        "original text restored",
+        "exactly restored"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Why might lossy compression be suitable for streaming music?",
+    "marks": 2,
+    "model": "Lossy compression greatly reduces file size, so the music can stream using less bandwidth, while small quality loss may not be noticed.",
+    "points": [
+      [
+        "reduces file size",
+        "smaller"
+      ],
+      [
+        "less bandwidth",
+        "stream faster"
+      ],
+      [
+        "quality loss not noticed",
+        "acceptable quality"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Give one disadvantage of lossy compression.",
+    "marks": 1,
+    "model": "Some data is permanently lost, so the quality may be reduced.",
+    "points": [
+      [
+        "data lost",
+        "permanently lost",
+        "quality reduced"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Give one disadvantage of lossless compression.",
+    "marks": 1,
+    "model": "It usually does not reduce the file size as much as lossy compression.",
+    "points": [
+      [
+        "not reduce as much",
+        "larger than lossy",
+        "less compression"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Explain run-length encoding.",
+    "marks": 2,
+    "model": "Run-length encoding is a lossless compression method that stores repeated data as a value and the number of times it repeats.",
+    "points": [
+      [
+        "lossless"
+      ],
+      [
+        "repeated data",
+        "runs"
+      ],
+      [
+        "value and count",
+        "number of times"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "What is encryption?",
+    "marks": 2,
+    "model": "Encryption is the process of converting readable data into unreadable data using an algorithm and a key.",
+    "points": [
+      [
+        "readable to unreadable",
+        "scrambled",
+        "coded"
+      ],
+      [
+        "algorithm"
+      ],
+      [
+        "key"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "What is plaintext?",
+    "marks": 1,
+    "model": "Plaintext is the original readable data before encryption.",
+    "points": [
+      [
+        "original",
+        "readable",
+        "before encryption"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "What is ciphertext?",
+    "marks": 1,
+    "model": "Ciphertext is the unreadable encrypted data after encryption.",
+    "points": [
+      [
+        "unreadable",
+        "encrypted",
+        "after encryption"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Why is encryption used when data is sent over a network?",
+    "marks": 2,
+    "model": "Encryption protects data by making it unreadable if it is intercepted, unless the attacker has the correct key.",
+    "points": [
+      [
+        "unreadable",
+        "scrambled"
+      ],
+      [
+        "intercepted",
+        "hacker",
+        "attacker"
+      ],
+      [
+        "key"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Explain symmetric encryption.",
+    "marks": 2,
+    "model": "Symmetric encryption uses the same key to encrypt and decrypt data.",
+    "points": [
+      [
+        "same key"
+      ],
+      [
+        "encrypt",
+        "decrypt"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Explain asymmetric encryption.",
+    "marks": 2,
+    "model": "Asymmetric encryption uses a public key and a private key. One key encrypts the data and the other key decrypts it.",
+    "points": [
+      [
+        "public key"
+      ],
+      [
+        "private key"
+      ],
+      [
+        "encrypt",
+        "decrypt"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Give one disadvantage of symmetric encryption.",
+    "marks": 2,
+    "model": "The secret key must be shared safely. If the key is intercepted, the encrypted data can be decrypted.",
+    "points": [
+      [
+        "key must be shared",
+        "share key"
+      ],
+      [
+        "intercepted",
+        "stolen"
+      ],
+      [
+        "decrypt data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Give one advantage of asymmetric encryption.",
+    "marks": 2,
+    "model": "The private key does not need to be shared, so it is safer when communicating over a network.",
+    "points": [
+      [
+        "private key not shared",
+        "does not need to share"
+      ],
+      [
+        "safer",
+        "more secure"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "What is the purpose of HTTPS?",
+    "marks": 2,
+    "model": "HTTPS encrypts data sent between a browser and a web server, making it safer to send personal information.",
+    "points": [
+      [
+        "encrypts data"
+      ],
+      [
+        "browser",
+        "web server"
+      ],
+      [
+        "personal information",
+        "safer",
+        "secure"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Explain why a longer encryption key can be more secure.",
+    "marks": 2,
+    "model": "A longer key has more possible combinations, so it is harder and slower for an attacker to guess by brute force.",
+    "points": [
+      [
+        "more combinations",
+        "more possibilities"
+      ],
+      [
+        "harder to guess",
+        "brute force",
+        "slower"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "What is a computer system?",
+    "marks": 2,
+    "model": "A computer system is made of hardware and software that work together to input, process, store and output data.",
+    "points": [
+      [
+        "hardware"
+      ],
+      [
+        "software"
+      ],
+      [
+        "input",
+        "process",
+        "output",
+        "store"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "Describe the input-process-output model.",
+    "marks": 3,
+    "model": "Data is entered as input, the computer processes it, and the result is produced as output.",
+    "points": [
+      [
+        "input"
+      ],
+      [
+        "process"
+      ],
+      [
+        "output"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "What is an algorithm?",
+    "marks": 2,
+    "model": "An algorithm is a finite set of step-by-step instructions used to solve a problem.",
+    "points": [
+      [
+        "step-by-step",
+        "instructions"
+      ],
+      [
+        "solve a problem"
+      ],
+      [
+        "finite",
+        "ends"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "What does finite mean in an algorithm?",
+    "marks": 1,
+    "model": "Finite means the algorithm must eventually stop after a limited number of steps.",
+    "points": [
+      [
+        "eventually stop",
+        "ends"
+      ],
+      [
+        "limited number of steps"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "Why is abstraction useful when modelling a system?",
+    "marks": 2,
+    "model": "Abstraction removes unnecessary details so the important parts of the system can be focused on.",
+    "points": [
+      [
+        "removes unnecessary details",
+        "ignore irrelevant"
+      ],
+      [
+        "important parts",
+        "focus"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "What is a state in a computational model?",
+    "marks": 1,
+    "model": "A state is the current condition or situation of a system at a particular time.",
+    "points": [
+      [
+        "current condition",
+        "current situation"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "What is a transition in a state machine?",
+    "marks": 2,
+    "model": "A transition is a change from one state to another, usually caused by an input or event.",
+    "points": [
+      [
+        "change from one state to another"
+      ],
+      [
+        "input",
+        "event"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "Give an example of a system that can be modelled using states.",
+    "marks": 1,
+    "model": "A traffic light system can be modelled using states such as red, amber and green.",
+    "points": [
+      [
+        "traffic light",
+        "vending machine",
+        "lift",
+        "elevator",
+        "turnstile"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "Why are computational models useful?",
+    "marks": 2,
+    "model": "They simplify real systems so they can be understood, tested or predicted using a computer.",
+    "points": [
+      [
+        "simplify",
+        "represent"
+      ],
+      [
+        "understood",
+        "tested",
+        "predicted"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "16. Machines and Computational Models",
+    "question": "Give an example of input, process and output for a calculator.",
+    "marks": 3,
+    "model": "Input is the numbers and operation. Process is the calculation. Output is the answer displayed.",
+    "points": [
+      [
+        "numbers",
+        "operation"
+      ],
+      [
+        "calculation",
+        "process"
+      ],
+      [
+        "answer",
+        "displayed",
+        "output"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is hardware?",
+    "marks": 1,
+    "model": "Hardware is the physical parts of a computer system that can be touched.",
+    "points": [
+      [
+        "physical parts",
+        "can be touched"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the purpose of the CPU?",
+    "marks": 2,
+    "model": "The CPU processes instructions and controls the operation of the computer system.",
+    "points": [
+      [
+        "processes instructions"
+      ],
+      [
+        "controls",
+        "operation"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Describe the fetch-decode-execute cycle.",
+    "marks": 3,
+    "model": "The CPU fetches an instruction from memory, decodes what it means, and executes the instruction.",
+    "points": [
+      [
+        "fetch"
+      ],
+      [
+        "decode"
+      ],
+      [
+        "execute"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the role of the Program Counter?",
+    "marks": 2,
+    "model": "The Program Counter stores the address of the next instruction to be fetched.",
+    "points": [
+      [
+        "address"
+      ],
+      [
+        "next instruction"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the role of the Memory Address Register?",
+    "marks": 2,
+    "model": "The Memory Address Register stores the address in memory that the CPU wants to access.",
+    "points": [
+      [
+        "memory address",
+        "address"
+      ],
+      [
+        "cpu wants to access",
+        "access memory"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the role of the Memory Data Register?",
+    "marks": 2,
+    "model": "The Memory Data Register stores data or instructions being transferred to or from memory.",
+    "points": [
+      [
+        "data",
+        "instruction"
+      ],
+      [
+        "to or from memory",
+        "transferred"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the role of the ALU?",
+    "marks": 2,
+    "model": "The ALU performs arithmetic operations and logical comparisons.",
+    "points": [
+      [
+        "arithmetic",
+        "calculations"
+      ],
+      [
+        "logic",
+        "comparisons"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is the role of the Control Unit?",
+    "marks": 2,
+    "model": "The Control Unit controls and coordinates the CPU by sending control signals.",
+    "points": [
+      [
+        "controls",
+        "coordinates"
+      ],
+      [
+        "control signals"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Explain the difference between RAM and ROM.",
+    "marks": 3,
+    "model": "RAM is volatile and stores data currently in use. ROM is non-volatile and stores permanent instructions such as boot instructions.",
+    "points": [
+      [
+        "ram volatile",
+        "ram temporary"
+      ],
+      [
+        "rom non-volatile",
+        "rom permanent"
+      ],
+      [
+        "currently in use",
+        "boot instructions"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Explain how cache memory improves CPU performance.",
+    "marks": 2,
+    "model": "Cache stores frequently used data and instructions close to the CPU, so they can be accessed faster than RAM.",
+    "points": [
+      [
+        "frequently used"
+      ],
+      [
+        "faster access",
+        "quicker"
+      ],
+      [
+        "cpu",
+        "ram"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Give two factors that affect CPU performance.",
+    "marks": 2,
+    "model": "Clock speed, number of cores and cache size can affect CPU performance.",
+    "points": [
+      [
+        "clock speed"
+      ],
+      [
+        "cores",
+        "number of cores"
+      ],
+      [
+        "cache"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "What is an embedded system?",
+    "marks": 2,
+    "model": "An embedded system is a computer system built into another device to perform a specific task.",
+    "points": [
+      [
+        "built into",
+        "inside another device"
+      ],
+      [
+        "specific task",
+        "dedicated"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Give two examples of embedded systems.",
+    "marks": 2,
+    "model": "Examples include a washing machine, microwave, traffic light system, car engine control system or digital camera.",
+    "points": [
+      [
+        "washing machine",
+        "microwave",
+        "traffic light"
+      ],
+      [
+        "car",
+        "camera",
+        "thermostat",
+        "printer"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Explain the difference between primary and secondary storage.",
+    "marks": 2,
+    "model": "Primary storage is directly accessed by the CPU and holds data in use. Secondary storage stores data permanently when power is off.",
+    "points": [
+      [
+        "primary",
+        "cpu",
+        "data in use"
+      ],
+      [
+        "secondary",
+        "permanent",
+        "power off"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "17. Hardware",
+    "question": "Give one advantage of solid-state storage compared with magnetic storage.",
+    "marks": 2,
+    "model": "Solid-state storage has no moving parts, so it is faster, quieter and more durable.",
+    "points": [
+      [
+        "no moving parts"
+      ],
+      [
+        "faster",
+        "durable",
+        "quieter"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "What is a logic gate?",
+    "marks": 1,
+    "model": "A logic gate is an electronic circuit that takes binary inputs and produces a binary output.",
+    "points": [
+      [
+        "binary inputs",
+        "input"
+      ],
+      [
+        "binary output",
+        "output"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "When does an AND gate output 1?",
+    "marks": 1,
+    "model": "An AND gate outputs 1 only when all inputs are 1.",
+    "points": [
+      [
+        "all inputs are 1",
+        "both inputs 1"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "When does an OR gate output 1?",
+    "marks": 1,
+    "model": "An OR gate outputs 1 when at least one input is 1.",
+    "points": [
+      [
+        "at least one input is 1",
+        "one or both"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "What does a NOT gate do?",
+    "marks": 1,
+    "model": "A NOT gate inverts the input, changing 1 to 0 and 0 to 1.",
+    "points": [
+      [
+        "inverts",
+        "opposite"
+      ],
+      [
+        "1 to 0",
+        "0 to 1"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "Describe A AND NOT B in words.",
+    "marks": 2,
+    "model": "The output is 1 only when A is 1 and B is 0.",
+    "points": [
+      [
+        "a is 1"
+      ],
+      [
+        "b is 0",
+        "not b"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "Find the output of NOT (A AND B) when A = 1 and B = 1.",
+    "marks": 2,
+    "model": "A AND B is 1, then NOT changes it to 0, so the output is 0.",
+    "points": [
+      [
+        "0"
+      ],
+      [
+        "a and b is 1",
+        "not changes"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "Find the output of A OR NOT B when A = 0 and B = 1.",
+    "marks": 2,
+    "model": "NOT B is 0, so A OR NOT B is 0 OR 0, which is 0.",
+    "points": [
+      [
+        "0"
+      ],
+      [
+        "not b is 0"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "Why are truth tables useful?",
+    "marks": 2,
+    "model": "Truth tables show every possible input combination and the output for each combination.",
+    "points": [
+      [
+        "every possible input",
+        "all combinations"
+      ],
+      [
+        "output"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "How many rows are needed in a truth table with 3 inputs?",
+    "marks": 2,
+    "model": "A truth table with 3 inputs needs 8 rows because 2^3 = 8.",
+    "points": [
+      [
+        "8"
+      ],
+      [
+        "2^3",
+        "three inputs"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "18. Logic",
+    "question": "Describe the output of A OR B AND C in words.",
+    "marks": 2,
+    "model": "The output is 1 when A is 1, or when both B and C are 1.",
+    "points": [
+      [
+        "a is 1"
+      ],
+      [
+        "b and c are 1",
+        "both b and c"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is software?",
+    "marks": 1,
+    "model": "Software is a set of programs or instructions that tell the computer hardware what to do.",
+    "points": [
+      [
+        "programs",
+        "instructions"
+      ],
+      [
+        "hardware"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is system software?",
+    "marks": 2,
+    "model": "System software manages and controls the computer hardware and provides a platform for application software.",
+    "points": [
+      [
+        "manages hardware",
+        "controls hardware"
+      ],
+      [
+        "platform",
+        "application software"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is application software?",
+    "marks": 2,
+    "model": "Application software allows users to perform specific tasks such as word processing or web browsing.",
+    "points": [
+      [
+        "specific tasks"
+      ],
+      [
+        "word processing",
+        "web browsing",
+        "spreadsheets",
+        "games"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "Give two examples of system software.",
+    "marks": 2,
+    "model": "Examples include operating systems, utility software, device drivers and translators.",
+    "points": [
+      [
+        "operating system"
+      ],
+      [
+        "utility",
+        "device driver",
+        "translator"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "Give two functions of an operating system.",
+    "marks": 2,
+    "model": "An operating system manages files, memory, processes, peripherals, security and the user interface.",
+    "points": [
+      [
+        "files",
+        "file management"
+      ],
+      [
+        "memory"
+      ],
+      [
+        "processes"
+      ],
+      [
+        "peripherals",
+        "devices"
+      ],
+      [
+        "user interface"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is utility software?",
+    "marks": 2,
+    "model": "Utility software helps maintain, manage or protect a computer system.",
+    "points": [
+      [
+        "maintain",
+        "manage"
+      ],
+      [
+        "protect",
+        "system"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "Give two examples of utility software.",
+    "marks": 2,
+    "model": "Examples include antivirus software, backup software, compression tools, disk cleanup and defragmentation tools.",
+    "points": [
+      [
+        "antivirus"
+      ],
+      [
+        "backup"
+      ],
+      [
+        "compression"
+      ],
+      [
+        "disk cleanup",
+        "defragmentation"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is a device driver?",
+    "marks": 2,
+    "model": "A device driver allows the operating system to communicate with and control a specific hardware device.",
+    "points": [
+      [
+        "operating system"
+      ],
+      [
+        "communicate",
+        "control"
+      ],
+      [
+        "hardware device"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "Why is antivirus software used?",
+    "marks": 2,
+    "model": "Antivirus software detects, blocks, quarantines or removes malware from a computer system.",
+    "points": [
+      [
+        "detects",
+        "scans"
+      ],
+      [
+        "blocks",
+        "quarantine",
+        "removes"
+      ],
+      [
+        "malware",
+        "virus"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "19. Software",
+    "question": "What is backup software used for?",
+    "marks": 2,
+    "model": "Backup software copies data so it can be restored if the original data is lost or damaged.",
+    "points": [
+      [
+        "copies data",
+        "backup"
+      ],
+      [
+        "restored"
+      ],
+      [
+        "lost",
+        "damaged"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is a programming language?",
+    "marks": 1,
+    "model": "A programming language is used to write instructions that a computer can follow.",
+    "points": [
+      [
+        "write instructions",
+        "instructions"
+      ],
+      [
+        "computer"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is a high-level language?",
+    "marks": 2,
+    "model": "A high-level language is closer to human language and easier for programmers to read and write.",
+    "points": [
+      [
+        "closer to human language"
+      ],
+      [
+        "easier to read",
+        "easier to write"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is a low-level language?",
+    "marks": 2,
+    "model": "A low-level language is closer to machine code and gives more direct control of hardware.",
+    "points": [
+      [
+        "closer to machine code"
+      ],
+      [
+        "control hardware",
+        "direct control"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is machine code?",
+    "marks": 1,
+    "model": "Machine code is binary instructions that can be directly executed by the CPU.",
+    "points": [
+      [
+        "binary instructions"
+      ],
+      [
+        "executed by cpu",
+        "directly executed"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is assembly language?",
+    "marks": 2,
+    "model": "Assembly language is a low-level language that uses mnemonics to represent machine code instructions.",
+    "points": [
+      [
+        "low-level"
+      ],
+      [
+        "mnemonics"
+      ],
+      [
+        "machine code"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "Why must high-level code be translated?",
+    "marks": 2,
+    "model": "High-level code must be translated because the CPU can only execute machine code.",
+    "points": [
+      [
+        "cpu"
+      ],
+      [
+        "only execute machine code",
+        "machine code"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "Explain the difference between a compiler and an interpreter.",
+    "marks": 4,
+    "model": "A compiler translates the whole program into machine code at once and can produce an executable file. An interpreter translates and runs the program one line at a time.",
+    "points": [
+      [
+        "compiler whole program",
+        "whole program"
+      ],
+      [
+        "machine code"
+      ],
+      [
+        "executable"
+      ],
+      [
+        "interpreter line by line",
+        "one line at a time"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "Give one advantage of using a compiler.",
+    "marks": 2,
+    "model": "A compiled program usually runs faster because it has already been translated into machine code.",
+    "points": [
+      [
+        "runs faster"
+      ],
+      [
+        "already translated",
+        "machine code"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "Give one advantage of using an interpreter.",
+    "marks": 2,
+    "model": "An interpreter is useful for testing because it can stop at the line where an error occurs.",
+    "points": [
+      [
+        "testing",
+        "debugging"
+      ],
+      [
+        "stops at error",
+        "line where error"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "20. Programming Languages",
+    "question": "What is an IDE?",
+    "marks": 2,
+    "model": "An IDE is software that helps programmers write, test and debug programs in one environment.",
+    "points": [
+      [
+        "software",
+        "environment"
+      ],
+      [
+        "write",
+        "test",
+        "debug"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a computer network?",
+    "marks": 2,
+    "model": "A computer network is two or more devices connected together so they can communicate and share data or resources.",
+    "points": [
+      [
+        "two or more devices",
+        "connected"
+      ],
+      [
+        "communicate",
+        "share data",
+        "resources"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "Give two advantages of using a network.",
+    "marks": 2,
+    "model": "Users can share files and resources, and communication and central backups are easier.",
+    "points": [
+      [
+        "share files",
+        "share resources"
+      ],
+      [
+        "communication"
+      ],
+      [
+        "central backups",
+        "backup"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "Give two disadvantages of using a network.",
+    "marks": 2,
+    "model": "Networks can be expensive to set up and may create security risks if unauthorised users gain access.",
+    "points": [
+      [
+        "expensive",
+        "cost"
+      ],
+      [
+        "security risk",
+        "unauthorised access"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a LAN?",
+    "marks": 2,
+    "model": "A LAN is a Local Area Network that connects devices over a small geographical area, such as a school or office.",
+    "points": [
+      [
+        "local area network",
+        "lan"
+      ],
+      [
+        "small area",
+        "school",
+        "office"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a WAN?",
+    "marks": 2,
+    "model": "A WAN is a Wide Area Network that connects networks over a large geographical area.",
+    "points": [
+      [
+        "wide area network",
+        "wan"
+      ],
+      [
+        "large area",
+        "country",
+        "world"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "Explain one difference between a LAN and a WAN.",
+    "marks": 2,
+    "model": "A LAN covers a small area and is usually owned by one organisation. A WAN covers a large area and often uses third-party links.",
+    "points": [
+      [
+        "lan small area"
+      ],
+      [
+        "wan large area"
+      ],
+      [
+        "third-party",
+        "organisation"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a client-server network?",
+    "marks": 2,
+    "model": "A client-server network uses a central server to provide services and resources to client computers.",
+    "points": [
+      [
+        "central server"
+      ],
+      [
+        "clients",
+        "services",
+        "resources"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a peer-to-peer network?",
+    "marks": 2,
+    "model": "A peer-to-peer network has devices that share resources directly without a central server.",
+    "points": [
+      [
+        "directly",
+        "between devices"
+      ],
+      [
+        "no central server",
+        "without server"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a router?",
+    "marks": 2,
+    "model": "A router forwards data packets between networks and helps direct data to its destination.",
+    "points": [
+      [
+        "forwards packets"
+      ],
+      [
+        "between networks"
+      ],
+      [
+        "destination"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a switch?",
+    "marks": 2,
+    "model": "A switch connects devices on a LAN and forwards data to the correct device using MAC addresses.",
+    "points": [
+      [
+        "connects devices"
+      ],
+      [
+        "lan"
+      ],
+      [
+        "mac address"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is bandwidth?",
+    "marks": 2,
+    "model": "Bandwidth is the amount of data that can be transmitted over a network connection in a given time.",
+    "points": [
+      [
+        "amount of data"
+      ],
+      [
+        "given time",
+        "per second"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is latency?",
+    "marks": 2,
+    "model": "Latency is the delay before data is transferred or before a response is received.",
+    "points": [
+      [
+        "delay"
+      ],
+      [
+        "response",
+        "data transferred"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "Explain packet switching.",
+    "marks": 3,
+    "model": "Packet switching splits data into packets, sends them across the network, and reassembles them at the destination.",
+    "points": [
+      [
+        "split into packets"
+      ],
+      [
+        "sent across network"
+      ],
+      [
+        "reassembled",
+        "destination"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is an IP address?",
+    "marks": 2,
+    "model": "An IP address identifies a device on a network so data can be sent to the correct destination.",
+    "points": [
+      [
+        "identifies device"
+      ],
+      [
+        "network"
+      ],
+      [
+        "destination"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "21. Networks",
+    "question": "What is a MAC address?",
+    "marks": 2,
+    "model": "A MAC address is a unique hardware address assigned to a network interface card.",
+    "points": [
+      [
+        "unique"
+      ],
+      [
+        "hardware address"
+      ],
+      [
+        "network interface card",
+        "nic"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "Why is network security important?",
+    "marks": 2,
+    "model": "Network security protects data and systems from unauthorised access, damage, theft or disruption.",
+    "points": [
+      [
+        "protects data",
+        "protects systems"
+      ],
+      [
+        "unauthorised access",
+        "damage",
+        "theft",
+        "disruption"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is authentication?",
+    "marks": 2,
+    "model": "Authentication checks that a user is who they claim to be.",
+    "points": [
+      [
+        "checks identity",
+        "verify user"
+      ],
+      [
+        "who they claim"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is authorisation?",
+    "marks": 2,
+    "model": "Authorisation checks what an authenticated user is allowed to access or do.",
+    "points": [
+      [
+        "checks permissions",
+        "allowed"
+      ],
+      [
+        "access",
+        "do"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "Explain the difference between authentication and authorisation.",
+    "marks": 2,
+    "model": "Authentication checks identity. Authorisation checks permissions.",
+    "points": [
+      [
+        "identity",
+        "who user is"
+      ],
+      [
+        "permissions",
+        "allowed access"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "Explain how two-factor authentication improves security.",
+    "marks": 2,
+    "model": "Two-factor authentication requires two forms of verification, so a stolen password alone is not enough to access the account.",
+    "points": [
+      [
+        "two forms",
+        "two steps"
+      ],
+      [
+        "stolen password",
+        "password alone",
+        "harder"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is malware?",
+    "marks": 2,
+    "model": "Malware is malicious software designed to damage, disrupt or gain unauthorised access to a computer system.",
+    "points": [
+      [
+        "malicious software"
+      ],
+      [
+        "damage",
+        "disrupt",
+        "unauthorised access"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a virus?",
+    "marks": 2,
+    "model": "A virus is malware that attaches to files or programs and replicates when the infected file is run.",
+    "points": [
+      [
+        "attaches to files",
+        "programs"
+      ],
+      [
+        "replicates",
+        "spreads"
+      ],
+      [
+        "run"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a worm?",
+    "marks": 2,
+    "model": "A worm is malware that spreads across networks by itself without needing to attach to another program.",
+    "points": [
+      [
+        "spreads across networks"
+      ],
+      [
+        "by itself"
+      ],
+      [
+        "not attach"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a Trojan horse?",
+    "marks": 2,
+    "model": "A Trojan horse is malware disguised as legitimate software to trick the user into installing it.",
+    "points": [
+      [
+        "disguised"
+      ],
+      [
+        "legitimate software"
+      ],
+      [
+        "trick user"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is ransomware?",
+    "marks": 2,
+    "model": "Ransomware locks or encrypts files and demands payment to restore access.",
+    "points": [
+      [
+        "locks files",
+        "encrypts files"
+      ],
+      [
+        "demands payment",
+        "ransom"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is phishing?",
+    "marks": 2,
+    "model": "Phishing is when an attacker pretends to be trusted to trick users into giving sensitive information.",
+    "points": [
+      [
+        "pretends",
+        "trusted"
+      ],
+      [
+        "trick users"
+      ],
+      [
+        "sensitive information",
+        "password"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a brute-force attack?",
+    "marks": 2,
+    "model": "A brute-force attack tries many possible passwords until the correct one is found.",
+    "points": [
+      [
+        "many possible passwords",
+        "tries passwords"
+      ],
+      [
+        "correct one"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a DDoS attack?",
+    "marks": 2,
+    "model": "A DDoS attack uses many devices to flood a server or network with traffic, making it slow or unavailable.",
+    "points": [
+      [
+        "many devices",
+        "botnet"
+      ],
+      [
+        "flood traffic",
+        "many requests"
+      ],
+      [
+        "slow",
+        "unavailable"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "What is a firewall?",
+    "marks": 2,
+    "model": "A firewall monitors network traffic and blocks unauthorised or suspicious traffic based on rules.",
+    "points": [
+      [
+        "monitors traffic"
+      ],
+      [
+        "blocks"
+      ],
+      [
+        "unauthorised",
+        "suspicious"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "22. Network Security",
+    "question": "How does antivirus software protect a computer?",
+    "marks": 2,
+    "model": "Antivirus software scans for malware and can block, quarantine or remove infected files.",
+    "points": [
+      [
+        "scans",
+        "detects"
+      ],
+      [
+        "malware"
+      ],
+      [
+        "block",
+        "quarantine",
+        "remove"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is the internet?",
+    "marks": 2,
+    "model": "The internet is a global network of connected networks that allows devices around the world to communicate.",
+    "points": [
+      [
+        "global network"
+      ],
+      [
+        "connected networks"
+      ],
+      [
+        "communicate"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is the World Wide Web?",
+    "marks": 2,
+    "model": "The World Wide Web is a service on the internet made of websites and webpages accessed using browsers.",
+    "points": [
+      [
+        "service on internet"
+      ],
+      [
+        "websites",
+        "webpages"
+      ],
+      [
+        "browser"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "Explain the difference between the internet and the World Wide Web.",
+    "marks": 2,
+    "model": "The internet is the global network infrastructure. The World Wide Web is a service of webpages that uses the internet.",
+    "points": [
+      [
+        "internet global network",
+        "infrastructure"
+      ],
+      [
+        "web webpages",
+        "service"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is a URL?",
+    "marks": 1,
+    "model": "A URL is the address of a resource on the web, such as a webpage.",
+    "points": [
+      [
+        "address"
+      ],
+      [
+        "webpage",
+        "resource"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is a domain name?",
+    "marks": 2,
+    "model": "A domain name is a human-readable name used to identify a website.",
+    "points": [
+      [
+        "human-readable"
+      ],
+      [
+        "website name",
+        "identify website"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is DNS?",
+    "marks": 2,
+    "model": "DNS translates domain names into IP addresses.",
+    "points": [
+      [
+        "domain name"
+      ],
+      [
+        "ip address"
+      ],
+      [
+        "translate",
+        "convert"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "Explain what happens when a user enters a URL into a browser.",
+    "marks": 4,
+    "model": "DNS finds the IP address. The browser sends an HTTP or HTTPS request to the web server. The server sends webpage data back and the browser displays the page.",
+    "points": [
+      [
+        "dns",
+        "ip address"
+      ],
+      [
+        "browser sends request"
+      ],
+      [
+        "web server"
+      ],
+      [
+        "sends data back"
+      ],
+      [
+        "displays page"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is HTTP?",
+    "marks": 2,
+    "model": "HTTP is a protocol used to transfer webpages and web data between a browser and web server.",
+    "points": [
+      [
+        "protocol"
+      ],
+      [
+        "transfer webpages",
+        "web data"
+      ],
+      [
+        "browser",
+        "server"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "What is HTTPS?",
+    "marks": 2,
+    "model": "HTTPS is a secure version of HTTP that encrypts data sent between the browser and web server.",
+    "points": [
+      [
+        "secure"
+      ],
+      [
+        "http"
+      ],
+      [
+        "encrypts data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "23. The Internet and the World Wide Web",
+    "question": "Why are protocols needed?",
+    "marks": 2,
+    "model": "Protocols are rules that allow devices to communicate and understand how data should be sent and received.",
+    "points": [
+      [
+        "rules"
+      ],
+      [
+        "communicate"
+      ],
+      [
+        "sent",
+        "received"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "24. Environmental Impact",
+    "question": "Give one negative environmental impact of technology.",
+    "marks": 2,
+    "model": "Technology can create e-waste that may contain harmful materials and pollute soil or water if not disposed of properly.",
+    "points": [
+      [
+        "e-waste"
+      ],
+      [
+        "harmful",
+        "toxic"
+      ],
+      [
+        "pollute",
+        "soil",
+        "water"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "24. Environmental Impact",
+    "question": "Give one positive environmental impact of technology.",
+    "marks": 2,
+    "model": "Technology can reduce travel through video calls and remote working, reducing fuel use and emissions.",
+    "points": [
+      [
+        "reduce travel",
+        "remote working",
+        "video calls"
+      ],
+      [
+        "fuel",
+        "emissions",
+        "pollution"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "24. Environmental Impact",
+    "question": "What is e-waste?",
+    "marks": 1,
+    "model": "E-waste is discarded electronic equipment such as old computers, phones and batteries.",
+    "points": [
+      [
+        "discarded electronic",
+        "old devices",
+        "electronic waste"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "24. Environmental Impact",
+    "question": "How can organisations reduce e-waste?",
+    "marks": 2,
+    "model": "Organisations can repair, reuse, donate or recycle devices instead of throwing them away.",
+    "points": [
+      [
+        "repair",
+        "reuse"
+      ],
+      [
+        "donate",
+        "recycle"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "24. Environmental Impact",
+    "question": "Explain how data centres can affect the environment.",
+    "marks": 2,
+    "model": "Data centres use large amounts of electricity for servers and cooling, which can increase carbon emissions.",
+    "points": [
+      [
+        "electricity",
+        "energy"
+      ],
+      [
+        "servers",
+        "cooling"
+      ],
+      [
+        "emissions",
+        "carbon"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "25. Privacy",
+    "question": "What is privacy in computing?",
+    "marks": 2,
+    "model": "Privacy means protecting personal data and controlling who can access or use it.",
+    "points": [
+      [
+        "protecting personal data"
+      ],
+      [
+        "control access",
+        "who can use"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "25. Privacy",
+    "question": "Give two examples of personal data.",
+    "marks": 2,
+    "model": "Examples include name, address, date of birth, email address, phone number, location data and bank details.",
+    "points": [
+      [
+        "name",
+        "address",
+        "date of birth"
+      ],
+      [
+        "email",
+        "phone",
+        "location",
+        "bank"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "25. Privacy",
+    "question": "Why is it important to protect personal data?",
+    "marks": 2,
+    "model": "Personal data should be protected to prevent misuse, identity theft, fraud or unauthorised access.",
+    "points": [
+      [
+        "prevent misuse"
+      ],
+      [
+        "identity theft",
+        "fraud",
+        "unauthorised access"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "25. Privacy",
+    "question": "What is informed consent?",
+    "marks": 2,
+    "model": "Informed consent means the user understands what data is being collected and how it will be used before agreeing.",
+    "points": [
+      [
+        "understands"
+      ],
+      [
+        "data collected"
+      ],
+      [
+        "how it will be used"
+      ],
+      [
+        "agreeing"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "25. Privacy",
+    "question": "Give one privacy risk of location tracking.",
+    "marks": 2,
+    "model": "Location tracking can reveal where a person lives, works or travels, which could be misused by an unauthorised person.",
+    "points": [
+      [
+        "location",
+        "where a person"
+      ],
+      [
+        "lives",
+        "works",
+        "travels"
+      ],
+      [
+        "misused",
+        "unauthorised"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "26. Digital Inclusion",
+    "question": "What is digital inclusion?",
+    "marks": 2,
+    "model": "Digital inclusion means making sure people have access to digital technology and the skills needed to use it.",
+    "points": [
+      [
+        "access"
+      ],
+      [
+        "technology",
+        "internet"
+      ],
+      [
+        "skills"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "26. Digital Inclusion",
+    "question": "What is the digital divide?",
+    "marks": 2,
+    "model": "The digital divide is the gap between people who have access to digital technology and the internet and people who do not.",
+    "points": [
+      [
+        "gap",
+        "divide"
+      ],
+      [
+        "access"
+      ],
+      [
+        "technology",
+        "internet"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "26. Digital Inclusion",
+    "question": "Give two causes of the digital divide.",
+    "marks": 2,
+    "model": "The digital divide can be caused by cost, poor internet coverage, lack of devices, disability, age or lack of skills.",
+    "points": [
+      [
+        "cost",
+        "afford"
+      ],
+      [
+        "poor internet",
+        "coverage"
+      ],
+      [
+        "lack of devices"
+      ],
+      [
+        "skills",
+        "disability",
+        "age"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "26. Digital Inclusion",
+    "question": "Give one effect of digital exclusion on education.",
+    "marks": 2,
+    "model": "Students without internet or devices may struggle to access online lessons, homework platforms or revision resources.",
+    "points": [
+      [
+        "students"
+      ],
+      [
+        "no internet",
+        "no devices"
+      ],
+      [
+        "online lessons",
+        "homework",
+        "revision"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "26. Digital Inclusion",
+    "question": "How can technology be made more accessible for disabled users?",
+    "marks": 2,
+    "model": "Technology can include screen readers, voice control, subtitles, larger text, high contrast modes or alternative input devices.",
+    "points": [
+      [
+        "screen readers",
+        "voice control",
+        "subtitles"
+      ],
+      [
+        "larger text",
+        "high contrast",
+        "alternative input"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "27. Professionalism",
+    "question": "What does professionalism mean in computing?",
+    "marks": 2,
+    "model": "Professionalism means behaving responsibly, ethically and legally when using or developing computer systems.",
+    "points": [
+      [
+        "responsibly"
+      ],
+      [
+        "ethically"
+      ],
+      [
+        "legally"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "27. Professionalism",
+    "question": "Why should IT professionals follow a code of conduct?",
+    "marks": 2,
+    "model": "A code of conduct gives rules for responsible behaviour and helps protect users, data, organisations and the public.",
+    "points": [
+      [
+        "rules"
+      ],
+      [
+        "responsible behaviour"
+      ],
+      [
+        "protect users",
+        "data",
+        "public"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "27. Professionalism",
+    "question": "What does confidentiality mean?",
+    "marks": 2,
+    "model": "Confidentiality means keeping information private and only sharing it with authorised people.",
+    "points": [
+      [
+        "private"
+      ],
+      [
+        "authorised people",
+        "not share"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "27. Professionalism",
+    "question": "Why should software be tested properly?",
+    "marks": 2,
+    "model": "Testing finds errors before the software is used, reducing the risk of incorrect results, security problems or system failure.",
+    "points": [
+      [
+        "finds errors"
+      ],
+      [
+        "before used"
+      ],
+      [
+        "incorrect results",
+        "security",
+        "failure"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "27. Professionalism",
+    "question": "What should a professional do if they find a security weakness?",
+    "marks": 2,
+    "model": "They should report it responsibly to the correct person or organisation instead of exploiting or sharing it publicly.",
+    "points": [
+      [
+        "report"
+      ],
+      [
+        "responsibly",
+        "correct person"
+      ],
+      [
+        "not exploit",
+        "not share publicly"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "28. Legal Impact",
+    "question": "Why are laws needed in computing?",
+    "marks": 2,
+    "model": "Laws protect people, data, organisations and intellectual property from misuse of technology.",
+    "points": [
+      [
+        "protect"
+      ],
+      [
+        "people",
+        "data",
+        "organisations"
+      ],
+      [
+        "intellectual property",
+        "misuse"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "28. Legal Impact",
+    "question": "What is intellectual property?",
+    "marks": 2,
+    "model": "Intellectual property is something created by a person’s mind, such as software, music, images, writing or designs.",
+    "points": [
+      [
+        "created"
+      ],
+      [
+        "software",
+        "music",
+        "images",
+        "writing",
+        "designs"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "28. Legal Impact",
+    "question": "What is copyright?",
+    "marks": 2,
+    "model": "Copyright protects original work from being copied, shared or used without permission.",
+    "points": [
+      [
+        "protects original work"
+      ],
+      [
+        "copied",
+        "shared",
+        "used"
+      ],
+      [
+        "without permission"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "28. Legal Impact",
+    "question": "What is hacking?",
+    "marks": 2,
+    "model": "Hacking is gaining unauthorised access to a computer system or data.",
+    "points": [
+      [
+        "unauthorised access"
+      ],
+      [
+        "computer system",
+        "data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "28. Legal Impact",
+    "question": "What is the purpose of data protection law?",
+    "marks": 2,
+    "model": "Data protection law controls how personal data is collected, stored, processed and shared.",
+    "points": [
+      [
+        "personal data"
+      ],
+      [
+        "collected",
+        "stored",
+        "processed",
+        "shared"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "29. Current and Emerging Trends",
+    "question": "What is artificial intelligence?",
+    "marks": 2,
+    "model": "Artificial intelligence allows computers to perform tasks that normally require human intelligence, such as recognising patterns or making decisions.",
+    "points": [
+      [
+        "computer"
+      ],
+      [
+        "human intelligence"
+      ],
+      [
+        "patterns",
+        "decisions"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "29. Current and Emerging Trends",
+    "question": "What is machine learning?",
+    "marks": 2,
+    "model": "Machine learning is a type of AI where a system improves by learning from data rather than being directly programmed for every rule.",
+    "points": [
+      [
+        "type of ai"
+      ],
+      [
+        "learns from data"
+      ],
+      [
+        "improves"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "29. Current and Emerging Trends",
+    "question": "Give one benefit and one risk of AI.",
+    "marks": 2,
+    "model": "AI can process large amounts of data quickly, but it may make biased or incorrect decisions if trained on poor data.",
+    "points": [
+      [
+        "process data",
+        "quickly"
+      ],
+      [
+        "biased",
+        "incorrect",
+        "poor data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "29. Current and Emerging Trends",
+    "question": "What is automation?",
+    "marks": 2,
+    "model": "Automation is when technology performs tasks with little or no human involvement.",
+    "points": [
+      [
+        "technology performs tasks"
+      ],
+      [
+        "little human",
+        "no human"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "29. Current and Emerging Trends",
+    "question": "What is the Internet of Things?",
+    "marks": 2,
+    "model": "The Internet of Things is a network of physical devices connected to the internet that can collect and share data.",
+    "points": [
+      [
+        "physical devices"
+      ],
+      [
+        "connected to internet"
+      ],
+      [
+        "collect",
+        "share data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Explain why computers use binary.",
+    "marks": 2,
+    "model": "Computers use binary because digital circuits can easily represent two states, such as on and off or high and low voltage.",
+    "points": [
+      [
+        "two states",
+        "two values",
+        "0 and 1",
+        "zero and one"
+      ],
+      [
+        "on and off",
+        "high and low",
+        "voltage",
+        "digital circuits",
+        "electronic circuits"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Convert the binary number 10110110 into denary.",
+    "marks": 2,
+    "model": "10110110 is 182 because 128 + 32 + 16 + 4 + 2 = 182.",
+    "points": [
+      [
+        "182"
+      ],
+      [
+        "128",
+        "32",
+        "16",
+        "4",
+        "2"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Convert denary 213 into 8-bit binary.",
+    "marks": 2,
+    "model": "213 in 8-bit binary is 11010101 because 213 = 128 + 64 + 16 + 4 + 1.",
+    "points": [
+      [
+        "11010101"
+      ],
+      [
+        "128",
+        "64",
+        "16",
+        "4",
+        "1"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: What is the largest denary number that can be stored using 8 bits?",
+    "marks": 2,
+    "model": "The largest number is 255 because 8 bits can represent 2^8 values, from 0 to 255.",
+    "points": [
+      [
+        "255"
+      ],
+      [
+        "2^8",
+        "256 values",
+        "0 to 255"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Explain what overflow means in binary addition.",
+    "marks": 2,
+    "model": "Overflow occurs when the result of a calculation is too large to fit into the number of bits available.",
+    "points": [
+      [
+        "result too large",
+        "too big"
+      ],
+      [
+        "not enough bits",
+        "cannot fit",
+        "bits available"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Add 01011010 and 00101101.",
+    "marks": 2,
+    "model": "01011010 + 00101101 = 10000111.",
+    "points": [
+      [
+        "10000111"
+      ],
+      [
+        "90",
+        "45",
+        "135"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Explain the effect of shifting a binary number one place to the left.",
+    "marks": 2,
+    "model": "Shifting a binary number one place to the left multiplies it by 2, if no important bits are lost.",
+    "points": [
+      [
+        "left"
+      ],
+      [
+        "multiply by 2",
+        "times 2",
+        "x2"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Explain the effect of shifting a binary number two places to the right.",
+    "marks": 2,
+    "model": "Shifting a binary number two places to the right divides it by 4, ignoring any remainder.",
+    "points": [
+      [
+        "right"
+      ],
+      [
+        "divide by 4",
+        "divided by 4",
+        "quarter"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Convert hexadecimal A7 into denary.",
+    "marks": 2,
+    "model": "A7 in hexadecimal is 167 because A is 10, so 10 × 16 + 7 = 167.",
+    "points": [
+      [
+        "167"
+      ],
+      [
+        "10",
+        "16",
+        "7"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "12. Binary",
+    "question": "Exam practice: Explain why hexadecimal is often used instead of binary.",
+    "marks": 2,
+    "model": "Hexadecimal is shorter and easier for humans to read than long binary numbers, so it is easier to write and check.",
+    "points": [
+      [
+        "shorter",
+        "less digits"
+      ],
+      [
+        "easier to read",
+        "easier to understand",
+        "easier to check"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: What is a character set?",
+    "marks": 2,
+    "model": "A character set is a list of characters that a computer can represent, where each character has a unique binary code.",
+    "points": [
+      [
+        "list of characters",
+        "set of characters"
+      ],
+      [
+        "unique binary code",
+        "binary code",
+        "code for each character"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: Explain one advantage of Unicode compared with ASCII.",
+    "marks": 2,
+    "model": "Unicode can represent many more characters than ASCII, including characters from different languages and symbols.",
+    "points": [
+      [
+        "more characters",
+        "larger character set"
+      ],
+      [
+        "different languages",
+        "symbols",
+        "emojis",
+        "international"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: A character set uses 8 bits per character. How many characters can it represent?",
+    "marks": 2,
+    "model": "It can represent 256 characters because 2^8 = 256.",
+    "points": [
+      [
+        "256"
+      ],
+      [
+        "2^8",
+        "8 bits"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: Explain how increasing image resolution affects file size.",
+    "marks": 2,
+    "model": "Increasing resolution increases the number of pixels, so more data must be stored and the file size increases.",
+    "points": [
+      [
+        "more pixels",
+        "number of pixels increases"
+      ],
+      [
+        "file size increases",
+        "more storage",
+        "more data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: Explain how increasing colour depth affects a bitmap image.",
+    "marks": 2,
+    "model": "Increasing colour depth allows more colours to be represented, but it increases file size because more bits are stored for each pixel.",
+    "points": [
+      [
+        "more colours",
+        "more shades"
+      ],
+      [
+        "file size increases",
+        "more bits per pixel",
+        "more storage"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: Calculate the file size in bytes for a 200 × 150 image with colour depth 16 bits.",
+    "marks": 3,
+    "model": "Pixels = 200 × 150 = 30000. Bits = 30000 × 16 = 480000. Bytes = 480000 ÷ 8 = 60000 bytes.",
+    "points": [
+      [
+        "30000"
+      ],
+      [
+        "480000"
+      ],
+      [
+        "60000",
+        "60,000"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: What is sampling in sound representation?",
+    "marks": 2,
+    "model": "Sampling is when the amplitude of a sound wave is measured at regular time intervals.",
+    "points": [
+      [
+        "amplitude",
+        "sound wave"
+      ],
+      [
+        "regular intervals",
+        "measured"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: Explain the effect of increasing sample rate.",
+    "marks": 2,
+    "model": "Increasing sample rate means the sound is sampled more often, which can improve sound quality but increases file size.",
+    "points": [
+      [
+        "sampled more often",
+        "more samples"
+      ],
+      [
+        "better quality",
+        "more accurate"
+      ],
+      [
+        "file size increases",
+        "more storage"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "13. Data Representation",
+    "question": "Exam practice: A sound file has sample rate 1000 Hz, sample resolution 8 bits, and length 10 seconds. Calculate file size in bits.",
+    "marks": 3,
+    "model": "File size = 1000 × 8 × 10 = 80000 bits.",
+    "points": [
+      [
+        "1000"
+      ],
+      [
+        "8"
+      ],
+      [
+        "10"
+      ],
+      [
+        "80000",
+        "80,000"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: State the order of common storage units from smallest to largest.",
+    "marks": 2,
+    "model": "The order is bit, byte, kilobyte, megabyte, gigabyte, terabyte.",
+    "points": [
+      [
+        "bit",
+        "byte"
+      ],
+      [
+        "kilobyte",
+        "megabyte",
+        "gigabyte",
+        "terabyte"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: How many bits are there in 4 bytes?",
+    "marks": 2,
+    "model": "There are 32 bits in 4 bytes because 1 byte is 8 bits, so 4 × 8 = 32.",
+    "points": [
+      [
+        "32"
+      ],
+      [
+        "8 bits",
+        "4 x 8",
+        "4×8"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Why is data compression used?",
+    "marks": 2,
+    "model": "Data compression is used to reduce file size, so files use less storage space and can be transmitted faster.",
+    "points": [
+      [
+        "reduce file size",
+        "smaller file"
+      ],
+      [
+        "less storage",
+        "transmitted faster",
+        "download faster",
+        "upload faster"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Explain lossless compression.",
+    "marks": 2,
+    "model": "Lossless compression reduces file size without permanently removing data, so the original file can be restored exactly.",
+    "points": [
+      [
+        "no data lost",
+        "without losing data"
+      ],
+      [
+        "original restored",
+        "restored exactly",
+        "same as original"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Explain lossy compression.",
+    "marks": 2,
+    "model": "Lossy compression reduces file size by permanently removing some data, so the original file cannot be restored exactly.",
+    "points": [
+      [
+        "removes data",
+        "data lost",
+        "permanently"
+      ],
+      [
+        "cannot restore exactly",
+        "quality reduced",
+        "not same as original"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Why is lossless compression suitable for text files?",
+    "marks": 2,
+    "model": "Lossless compression is suitable because no characters or data are lost, so the exact original text can be restored.",
+    "points": [
+      [
+        "no characters lost",
+        "no data lost"
+      ],
+      [
+        "original text restored",
+        "exactly restored"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Why might lossy compression be suitable for streaming music?",
+    "marks": 2,
+    "model": "Lossy compression greatly reduces file size, so the music can stream using less bandwidth, while small quality loss may not be noticed.",
+    "points": [
+      [
+        "reduces file size",
+        "smaller"
+      ],
+      [
+        "less bandwidth",
+        "stream faster"
+      ],
+      [
+        "quality loss not noticed",
+        "acceptable quality"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "14. Data Storage and Compression",
+    "question": "Exam practice: Explain run-length encoding.",
+    "marks": 2,
+    "model": "Run-length encoding is a lossless compression method that stores repeated data as a value and the number of times it repeats.",
+    "points": [
+      [
+        "lossless"
+      ],
+      [
+        "repeated data",
+        "runs"
+      ],
+      [
+        "value and count",
+        "number of times"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: What is encryption?",
+    "marks": 2,
+    "model": "Encryption is the process of converting readable data into unreadable data using an algorithm and a key.",
+    "points": [
+      [
+        "readable to unreadable",
+        "scrambled",
+        "coded"
+      ],
+      [
+        "algorithm"
+      ],
+      [
+        "key"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Why is encryption used when data is sent over a network?",
+    "marks": 2,
+    "model": "Encryption protects data by making it unreadable if it is intercepted, unless the attacker has the correct key.",
+    "points": [
+      [
+        "unreadable",
+        "scrambled"
+      ],
+      [
+        "intercepted",
+        "hacker",
+        "attacker"
+      ],
+      [
+        "key"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Explain symmetric encryption.",
+    "marks": 2,
+    "model": "Symmetric encryption uses the same key to encrypt and decrypt data.",
+    "points": [
+      [
+        "same key"
+      ],
+      [
+        "encrypt",
+        "decrypt"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Explain asymmetric encryption.",
+    "marks": 2,
+    "model": "Asymmetric encryption uses a public key and a private key. One key encrypts the data and the other key decrypts it.",
+    "points": [
+      [
+        "public key"
+      ],
+      [
+        "private key"
+      ],
+      [
+        "encrypt",
+        "decrypt"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Give one disadvantage of symmetric encryption.",
+    "marks": 2,
+    "model": "The secret key must be shared safely. If the key is intercepted, the encrypted data can be decrypted.",
+    "points": [
+      [
+        "key must be shared",
+        "share key"
+      ],
+      [
+        "intercepted",
+        "stolen"
+      ],
+      [
+        "decrypt data"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Give one advantage of asymmetric encryption.",
+    "marks": 2,
+    "model": "The private key does not need to be shared, so it is safer when communicating over a network.",
+    "points": [
+      [
+        "private key not shared",
+        "does not need to share"
+      ],
+      [
+        "safer",
+        "more secure"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: What is the purpose of HTTPS?",
+    "marks": 2,
+    "model": "HTTPS encrypts data sent between a browser and a web server, making it safer to send personal information.",
+    "points": [
+      [
+        "encrypts data"
+      ],
+      [
+        "browser",
+        "web server"
+      ],
+      [
+        "personal information",
+        "safer",
+        "secure"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  },
+  {
+    "topic": "15. Encryption",
+    "question": "Exam practice: Explain why a longer encryption key can be more secure.",
+    "marks": 2,
+    "model": "A longer key has more possible combinations, so it is harder and slower for an attacker to guess by brute force.",
+    "points": [
+      [
+        "more combinations",
+        "more possibilities"
+      ],
+      [
+        "harder to guess",
+        "brute force",
+        "slower"
+      ]
+    ],
+    "tips": "Use clear Pearson-style points. Add the effect or reason when the question says explain."
+  }
+];
+    let currentQuestion = null, currentQuestionIndex = -1, lastQuestionIndex = -1;
+    let score = 0, total = 0, answered = 0, remainingIndexes = [];
+
+    function normalize(text) {
+      return String(text).toLowerCase()
+        .replace(/unauthorized/g, "unauthorised")
+        .replace(/colors/g, "colours").replace(/color/g, "colour")
+        .replace(/\bpc\b/g, "computer")
+        .replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ").trim();
+    }
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, m => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[m]));
+    }
+    function addMessage(text, type = "bot") {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "bubble " + type;
+      div.innerHTML = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+    function populateTopics() {
+      const topics = [...new Set(questions.map(q => q.topic))].sort((a,b) => {
+        const na = parseInt(a), nb = parseInt(b);
+        return (isNaN(na) || isNaN(nb)) ? a.localeCompare(b) : na - nb;
+      });
+      const select = document.getElementById("topicSelect");
+      topics.forEach(topic => {
+        const option = document.createElement("option");
+        option.value = topic; option.textContent = topic;
+        select.appendChild(option);
+      });
+    }
+    function getFilteredIndexes() {
+      const topic = document.getElementById("topicSelect").value;
+      return questions.map((q, index) => ({q, index}))
+        .filter(item => topic === "All" || item.q.topic === topic)
+        .map(item => item.index);
+    }
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    function refillCycle() {
+      remainingIndexes = getFilteredIndexes();
+      if (remainingIndexes.length > 1 && lastQuestionIndex !== -1) {
+        remainingIndexes = remainingIndexes.filter(i => i !== lastQuestionIndex);
+      }
+      shuffleArray(remainingIndexes);
+      updateStats();
+    }
+    function changeTopic() {
+      const topic = document.getElementById("topicSelect").value;
+      document.getElementById("topicStat").textContent = topic === "All" ? "Mixed Paper 1" : topic;
+      remainingIndexes = [];
+      newQuestion();
+    }
+    function newQuestion() {
+      if (remainingIndexes.length === 0) refillCycle();
+      if (remainingIndexes.length === 0) { addMessage("No questions found for this topic.", "bot"); return; }
+      let nextIndex = remainingIndexes.pop();
+      if (nextIndex === lastQuestionIndex && remainingIndexes.length > 0) {
+        const swapIndex = remainingIndexes.pop();
+        remainingIndexes.unshift(nextIndex);
+        nextIndex = swapIndex;
+      }
+      currentQuestionIndex = nextIndex;
+      currentQuestion = questions[nextIndex];
+      lastQuestionIndex = nextIndex;
+      addMessage(`<strong>${escapeHtml(currentQuestion.topic)}</strong>\n\nQuestion (${currentQuestion.marks} marks):\n${escapeHtml(currentQuestion.question)}`, "bot");
+      document.getElementById("answerInput").value = "";
+      document.getElementById("answerInput").focus();
+      updateStats();
+    }
+    function scoreAnswer(answer, question) {
+      const norm = normalize(answer);
+      const earned = [], missed = [];
+      question.points.forEach((group, idx) => {
+        let matchedPhrase = null;
+        for (const phrase of group) {
+          const np = normalize(phrase);
+          if (np && norm.includes(np)) { matchedPhrase = phrase; break; }
+        }
+        if (matchedPhrase) earned.push({ point: idx + 1, phrase: matchedPhrase, group });
+        else missed.push({ point: idx + 1, examples: group.slice(0, 3) });
+      });
+      let estimated = Math.min(question.marks, earned.length);
+      const wordCount = norm ? norm.split(" ").length : 0;
+      if (wordCount < 5) estimated = Math.min(estimated, 1);
+      if (wordCount < 3) estimated = 0;
+      return { estimated, earned, missed };
+    }
+    function submitAnswer() {
+      if (!currentQuestion) newQuestion();
+      const rawAnswer = document.getElementById("answerInput").value.trim();
+      if (!rawAnswer) { addMessage("Type an answer first, then submit it.", "bot"); return; }
+      addMessage(escapeHtml(rawAnswer), "user");
+      const result = scoreAnswer(rawAnswer, currentQuestion);
+      score += result.estimated; total += currentQuestion.marks; answered += 1; updateStats();
+
+      let feedbackText = `<span class="mark">Estimated mark: ${result.estimated} / ${currentQuestion.marks}</span>\n\n`;
+      feedbackText += result.estimated === currentQuestion.marks
+        ? "Good answer. You included enough marking points for full marks.\n\n"
+        : result.estimated >= Math.ceil(currentQuestion.marks / 2)
+          ? "Decent answer. You got some key points, but you need more mark-scheme detail.\n\n"
+          : "This needs more detail. Try to include clear key points and effects.\n\n";
+
+      if (result.earned.length > 0) {
+        feedbackText += `<span class="hit">Marking points detected:</span>\n`;
+        result.earned.forEach(item => { feedbackText += `- Point ${item.point}: similar to "${escapeHtml(item.phrase)}"\n`; });
+        feedbackText += "\n";
+      }
+      if (result.missed.length > 0) {
+        feedbackText += `<span class="missing">Possible missing marking points:</span>\n`;
+        result.missed.slice(0, 4).forEach(item => { feedbackText += `- Point ${item.point}: e.g. ${escapeHtml(item.examples.join(" / "))}\n`; });
+        feedbackText += "\n";
+      }
+      feedbackText += `<strong>Pearson-style student answer:</strong>\n${escapeHtml(currentQuestion.model)}\n\n`;
+      feedbackText += `<strong>Revision tip:</strong>\n${escapeHtml(currentQuestion.tips)}`;
+      addMessage(feedbackText, "feedback");
+      document.getElementById("answerInput").value = "";
+    }
+    function showModelAnswer() {
+      if (!currentQuestion) newQuestion();
+      addMessage(`<strong>Model answer:</strong>\n${escapeHtml(currentQuestion.model)}\n\n<strong>Tip:</strong> ${escapeHtml(currentQuestion.tips)}`, "feedback");
+    }
+    function giveHint() {
+      if (!currentQuestion) newQuestion();
+      const hintGroups = currentQuestion.points.slice(0, Math.min(2, currentQuestion.points.length))
+        .map((group, i) => `Point ${i + 1}: ${group.slice(0, 2).join(" / ")}`).join("\n");
+      addMessage(`Hint:\n${escapeHtml(hintGroups)}`, "bot");
+    }
+    function clearAnswer() {
+      document.getElementById("answerInput").value = "";
+      document.getElementById("answerInput").focus();
+    }
+    function updateStats() {
+      document.getElementById("scoreStat").textContent = `${score} / ${total}`;
+      document.getElementById("answeredStat").textContent = answered;
+      document.getElementById("leftStat").textContent = remainingIndexes.length;
+    }
+    function resetSession() {
+      score = 0; total = 0; answered = 0; currentQuestion = null; currentQuestionIndex = -1; lastQuestionIndex = -1; remainingIndexes = [];
+      updateStats(); document.getElementById("messages").innerHTML = "";
+      addMessage("Session reset. I will start a fresh cycle and avoid repeating questions until the cycle is used.", "bot");
+      newQuestion();
+    }
+    populateTopics();
+    addMessage("Hi. I’m your 200-question Paper 1 theory practice chatbot. I’ll ask an Edexcel-style question. Type your answer, and I’ll mark it using similar marking-point ideas, not only exact wording.", "bot");
+    newQuestion();
+  </script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Combined hub attribution: Vibe coded by Aung Kaung Nyi Nyi@GIC Edexcel Online 3 using GPT-5.5 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGCSE Edexcel Computer Science - The Bigger Picture Flashcards</title>
+  <style>
+    :root {
+      --bg: #19051d;
+      --text: #fdf4ff;
+      --muted: #f5d0fe;
+      --purple: #a21caf;
+      --purple2: #d946ef;
+      --pink: #f472b6;
+      --card: #2b1231;
+      --card2: #3b1744;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(217, 70, 239, 0.28), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(244, 114, 182, 0.18), transparent 30%),
+        var(--bg);
+      padding: 24px;
+    }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto 22px auto;
+      padding: 24px;
+      text-align: center;
+      border-radius: 28px;
+      background: rgba(43, 18, 49, 0.84);
+      border: 1px solid rgba(253, 244, 255, 0.12);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.30);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 900px;
+      margin: 12px auto 0 auto;
+      line-height: 1.55;
+    }
+
+    .chapter-list {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(217, 70, 239, 0.20);
+      color: #fae8ff;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+
+    .topbar {
+      max-width: 1180px;
+      margin: 0 auto 20px auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .controls, .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(43, 18, 49, 0.68);
+      border: 1px solid rgba(253, 244, 255, 0.09);
+    }
+
+    button, select, input {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    button {
+      background: rgba(253, 244, 255, 0.12);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: rgba(253, 244, 255, 0.22);
+    }
+
+    select, input {
+      background: rgba(253, 244, 255, 0.98);
+      color: #4a044e;
+      min-width: 250px;
+    }
+
+    .progress-wrap {
+      max-width: 760px;
+      margin: 0 auto 24px auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 13px;
+      background: rgba(253, 244, 255, 0.13);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple2), var(--pink));
+      transition: width 0.25s ease;
+    }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+      gap: 18px;
+    }
+
+    .flashcard {
+      perspective: 1100px;
+      min-height: 285px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 285px;
+      transition: transform 0.62s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 26px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(253, 244, 255, 0.13);
+    }
+
+    .front {
+      background: linear-gradient(145deg, rgba(43, 18, 49, 0.98), rgba(59, 23, 68, 0.98));
+    }
+
+    .back {
+      background: linear-gradient(145deg, rgba(112, 26, 117, 0.97), rgba(134, 25, 143, 0.97));
+      transform: rotateY(180deg);
+    }
+
+    .tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(217, 70, 239, 0.22);
+      color: #fae8ff;
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+
+    .number {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .question, .answer {
+      font-size: 1.03rem;
+      line-height: 1.5;
+      margin: 8px 0 18px 0;
+    }
+
+    .answer-label {
+      color: #fef3c7;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 34px auto 0 auto;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      header, .topbar, .progress-wrap, footer {
+        box-shadow: none;
+        background: white;
+        color: black;
+      }
+      .controls, .filters {
+        display: none;
+      }
+      .grid {
+        display: block;
+      }
+      .flashcard {
+        page-break-inside: avoid;
+        margin-bottom: 18px;
+      }
+      .flashcard-inner, .flashcard.flipped .flashcard-inner {
+        transform: none;
+      }
+      .face {
+        position: relative;
+        color: black;
+        background: white !important;
+        border: 1px solid #999;
+        box-shadow: none;
+        margin-bottom: 8px;
+      }
+      .back {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>IGCSE Edexcel Computer Science — THE BIGGER PICTURE</h1>
+    <p class="subtitle">
+      50 Pearson-style flashcards for The Bigger Picture unit. Click each card to reveal a student-style answer.
+      These cover environmental impact, privacy, digital inclusion, professionalism, legal impact and emerging trends.
+    </p>
+    <div class="chapter-list">
+      <span class="pill">24. Environmental Impact</span>
+      <span class="pill">25. Privacy</span>
+      <span class="pill">26. Digital Inclusion</span>
+      <span class="pill">27. Professionalism</span>
+      <span class="pill">28. Legal Impact</span>
+      <span class="pill">29. Current and Emerging Trends</span>
+    </div>
+  </header>
+
+  <section class="topbar">
+    <div class="controls">
+      <button onclick="shuffleCards()">Shuffle</button>
+      <button onclick="flipAll(true)">Show All Answers</button>
+      <button onclick="flipAll(false)">Show All Questions</button>
+      <button onclick="resetProgress()">Reset Progress</button>
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="filters">
+      <select id="chapterFilter" onchange="applyFilters()">
+        <option value="All">All Chapters</option>
+      </select>
+      <input id="searchInput" type="search" placeholder="Search cards..." oninput="applyFilters()" />
+    </div>
+  </section>
+
+  <section class="progress-wrap">
+    <div id="progressText">0 / 50 cards viewed</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </section>
+
+  <main class="grid" id="cardGrid"></main>
+
+  <footer>
+    Exam tip: For bigger-picture questions, give a clear impact and explain who is affected, such as users, organisations, workers, or the environment.
+  </footer>
+
+  <script>
+    const originalCards = [
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Give one positive environmental impact of using technology.",
+            "a": "Technology can reduce the need for travel because people can use video calls or work from home, which can reduce fuel use and emissions."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Give one negative environmental impact of using technology.",
+            "a": "Electronic devices can create e-waste when they are thrown away, and this may contain harmful materials that damage the environment."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "What is e-waste?",
+            "a": "E-waste is waste made from discarded electronic devices, such as old phones, computers, monitors and batteries."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Why can e-waste be harmful?",
+            "a": "E-waste can contain toxic materials. If it is not disposed of properly, these materials can pollute soil and water."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Give two ways an organisation can reduce e-waste.",
+            "a": "An organisation can recycle old devices, repair devices instead of replacing them, donate usable equipment, or buy devices with a longer lifespan."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Explain how cloud storage can have an environmental impact.",
+            "a": "Cloud storage uses data centres, which need large amounts of electricity for servers and cooling systems. This can increase energy use and carbon emissions."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Explain how technology can reduce paper use.",
+            "a": "Documents can be created, shared and stored digitally, so fewer printed copies are needed."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Give one environmental problem caused by manufacturing computer devices.",
+            "a": "Manufacturing devices uses raw materials and energy. Mining materials can damage habitats and create pollution."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Explain how video conferencing can help the environment.",
+            "a": "Video conferencing reduces the need for people to travel to meetings, which can reduce fuel use and emissions."
+      },
+      {
+            "chapter": "24. Computing and the Environmental Impact of Technology",
+            "q": "Give two ways users can reduce the energy used by computers.",
+            "a": "Users can turn devices off when not in use, use power-saving settings, reduce screen brightness, or choose energy-efficient devices."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "What is privacy in computing?",
+            "a": "Privacy means protecting a person’s personal data and controlling who can access or use that data."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Give two examples of personal data.",
+            "a": "Examples include name, address, date of birth, phone number, email address, location data, photos and bank details."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Why is it important to protect personal data?",
+            "a": "Personal data should be protected to prevent misuse, identity theft, fraud, stalking or unauthorised access."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "What is data collection?",
+            "a": "Data collection is the process of gathering information about users, such as their details, behaviour, location or preferences."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Explain why companies collect user data.",
+            "a": "Companies may collect user data to provide services, improve products, personalise adverts, analyse behaviour or meet legal requirements."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Give one privacy concern with social media.",
+            "a": "Users may share too much personal information, and this data could be seen by strangers, copied, misused or used for targeted advertising."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Give one privacy concern with location tracking.",
+            "a": "Location tracking can reveal where a person lives, works or travels, which could be misused if accessed by the wrong person."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "What is informed consent?",
+            "a": "Informed consent means the user understands what data is being collected and how it will be used before agreeing."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Explain why privacy settings are important.",
+            "a": "Privacy settings allow users to control who can see their information and reduce the risk of personal data being shared too widely."
+      },
+      {
+            "chapter": "25. Privacy",
+            "q": "Give two methods for protecting privacy online.",
+            "a": "Users can use strong privacy settings, avoid oversharing personal data, use strong passwords, use two-factor authentication, and only use trusted websites."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "What is digital inclusion?",
+            "a": "Digital inclusion means making sure people have access to digital technology and the skills needed to use it."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "What is the digital divide?",
+            "a": "The digital divide is the gap between people who have access to technology and the internet, and people who do not."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Give two causes of the digital divide.",
+            "a": "The digital divide can be caused by cost, poor internet coverage, lack of devices, disability, age, language barriers or lack of digital skills."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Explain how cost can affect digital inclusion.",
+            "a": "Some people may not be able to afford devices, internet access or software, so they cannot fully use digital services."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Explain how location can affect digital inclusion.",
+            "a": "People in rural or remote areas may have slower internet or no reliable internet access, making it harder to use online services."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Give one way technology can be made more accessible for disabled users.",
+            "a": "Technology can use screen readers, voice control, subtitles, larger text, high contrast modes or alternative input devices."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Why is digital literacy important?",
+            "a": "Digital literacy helps people use technology safely and effectively, such as searching for information, using online services and avoiding scams."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Give one effect of digital exclusion on education.",
+            "a": "Students without internet or devices may struggle to access online lessons, resources, homework platforms or revision materials."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Give one effect of digital exclusion on employment.",
+            "a": "People may find it harder to apply for jobs online, access training, work remotely or use workplace systems."
+      },
+      {
+            "chapter": "26. Digital Inclusion",
+            "q": "Give two ways governments or organisations can improve digital inclusion.",
+            "a": "They can provide affordable internet, public computer access, digital skills training, accessible websites or devices for people who cannot afford them."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "What does professionalism mean in computing?",
+            "a": "Professionalism means behaving responsibly, ethically and legally when using or developing computer systems."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "Why should IT professionals follow a code of conduct?",
+            "a": "A code of conduct gives rules for responsible behaviour and helps protect users, data, organisations and the public."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "Give two examples of professional behaviour in computing.",
+            "a": "Examples include keeping data confidential, following laws, reporting security issues, testing software properly and being honest with users."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "What does confidentiality mean?",
+            "a": "Confidentiality means keeping information private and only sharing it with people who are authorised to access it."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "Why is it important for programmers to test software properly?",
+            "a": "Testing helps find errors before the software is used, reducing the risk of incorrect results, security problems or system failure."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "What should a professional do if they find a security weakness?",
+            "a": "They should report it responsibly to the correct person or organisation instead of exploiting it or sharing it publicly."
+      },
+      {
+            "chapter": "27. Professionalism",
+            "q": "Why is honesty important when developing software?",
+            "a": "Users and organisations need accurate information about what software can do, its limits and any risks."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "Why are laws needed in computing?",
+            "a": "Laws are needed to protect people, data, organisations and intellectual property from misuse of technology."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "What is intellectual property?",
+            "a": "Intellectual property is something created by a person’s mind, such as software, music, images, writing or designs."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "What is copyright?",
+            "a": "Copyright is a law that protects original work from being copied, shared or used without permission."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "Give one example of copyright infringement.",
+            "a": "Copying and sharing paid software, music, images or films without permission is copyright infringement."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "Why is software licensing important?",
+            "a": "Software licensing explains how software can legally be used, copied, installed or shared."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "What is hacking?",
+            "a": "Hacking is gaining unauthorised access to a computer system or data."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "Why is unauthorised access illegal?",
+            "a": "Unauthorised access can expose, steal, change or damage data and can harm users or organisations."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "What is data protection law used for?",
+            "a": "Data protection law controls how personal data is collected, stored, processed and shared."
+      },
+      {
+            "chapter": "28. Computing and the Legal Impact of Technology",
+            "q": "Give two principles of good data protection.",
+            "a": "Personal data should be kept secure, accurate, used fairly, collected for a clear purpose, and not kept longer than needed."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "What is artificial intelligence?",
+            "a": "Artificial intelligence is technology that allows computers to perform tasks that normally require human intelligence, such as recognising patterns or making decisions."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one example of artificial intelligence.",
+            "a": "Examples include voice assistants, recommendation systems, image recognition, chatbots, self-driving cars and fraud detection."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "What is machine learning?",
+            "a": "Machine learning is a type of artificial intelligence where a system improves by learning from data instead of being directly programmed for every rule."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one benefit of artificial intelligence.",
+            "a": "AI can process large amounts of data quickly and can automate tasks, which may save time and improve efficiency."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one risk of artificial intelligence.",
+            "a": "AI may make biased or incorrect decisions if it is trained on poor or biased data."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "What is automation?",
+            "a": "Automation is when technology is used to perform tasks with little or no human involvement."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one positive impact of automation.",
+            "a": "Automation can increase productivity and perform repetitive tasks more quickly and accurately than humans."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one negative impact of automation.",
+            "a": "Automation can replace some jobs, meaning workers may need retraining or may lose employment."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "What is the Internet of Things?",
+            "a": "The Internet of Things is a network of physical devices connected to the internet that can collect and share data."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one example of an Internet of Things device.",
+            "a": "Examples include smart watches, smart thermostats, smart speakers, smart lights, security cameras and connected appliances."
+      },
+      {
+            "chapter": "29. Current and Emerging Trends",
+            "q": "Give one privacy risk of Internet of Things devices.",
+            "a": "IoT devices can collect personal data, such as location, voice recordings or habits, which could be misused if not protected."
+      }
+];
+    let currentCards = [...originalCards];
+    const viewed = new Set();
+
+    function populateChapters() {
+      const chapters = [...new Set(originalCards.map(card => card.chapter))];
+      const select = document.getElementById("chapterFilter");
+      chapters.forEach(chapter => {
+        const option = document.createElement("option");
+        option.value = chapter;
+        option.textContent = chapter;
+        select.appendChild(option);
+      });
+    }
+
+    function createCard(card) {
+      const originalIndex = originalCards.indexOf(card);
+      const div = document.createElement("article");
+      div.className = "flashcard";
+      div.tabIndex = 0;
+      div.innerHTML = `
+        <div class="flashcard-inner">
+          <section class="face front">
+            <div>
+              <div class="tag-row">
+                <span class="tag">${card.chapter}</span>
+                <span class="number">Q${originalIndex + 1}</span>
+              </div>
+              <div class="question">${card.q}</div>
+            </div>
+            <div class="small">Click to reveal answer</div>
+          </section>
+          <section class="face back">
+            <div>
+              <div class="tag-row">
+                <span class="tag">Answer</span>
+                <span class="number">A${originalIndex + 1}</span>
+              </div>
+              <div class="answer">
+                <div class="answer-label">Pearson-style student answer</div>
+                ${card.a}
+              </div>
+            </div>
+            <div class="small">Click again to return to question</div>
+          </section>
+        </div>
+      `;
+
+      div.addEventListener("click", () => {
+        div.classList.toggle("flipped");
+        viewed.add(originalIndex);
+        updateProgress();
+      });
+
+      div.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          div.click();
+        }
+      });
+
+      return div;
+    }
+
+    function renderCards(cardList = currentCards) {
+      const grid = document.getElementById("cardGrid");
+      grid.innerHTML = "";
+      if (cardList.length === 0) {
+        grid.innerHTML = "<p style='color:#f5d0fe; text-align:center; grid-column:1/-1;'>No cards match your filter.</p>";
+        return;
+      }
+      cardList.forEach(card => grid.appendChild(createCard(card)));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total = originalCards.length;
+      const count = viewed.size;
+      document.getElementById("progressText").textContent = `${count} / ${total} cards viewed`;
+      document.getElementById("progressFill").style.width = `${(count / total) * 100}%`;
+    }
+
+    function shuffleCards() {
+      currentCards = [...currentCards].sort(() => Math.random() - 0.5);
+      renderCards(currentCards);
+    }
+
+    function flipAll(showAnswers) {
+      document.querySelectorAll(".flashcard").forEach(card => {
+        card.classList.toggle("flipped", showAnswers);
+      });
+      if (showAnswers) {
+        currentCards.forEach(card => viewed.add(originalCards.indexOf(card)));
+      }
+      updateProgress();
+    }
+
+    function resetProgress() {
+      viewed.clear();
+      document.querySelectorAll(".flashcard").forEach(card => card.classList.remove("flipped"));
+      updateProgress();
+    }
+
+    function applyFilters() {
+      const chapter = document.getElementById("chapterFilter").value;
+      const search = document.getElementById("searchInput").value.toLowerCase().trim();
+      currentCards = originalCards.filter(card => {
+        const matchesChapter = chapter === "All" || card.chapter === chapter;
+        const matchesSearch = !search || card.q.toLowerCase().includes(search) || card.a.toLowerCase().includes(search);
+        return matchesChapter && matchesSearch;
+      });
+      renderCards(currentCards);
+    }
+
+    populateChapters();
+    renderCards();
+  </script>
+</body>
+</html>
